@@ -4,411 +4,687 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="A sinus-friendly Indian diet, exercise and habit planner for students.">
+<meta name="theme-color" id="themeColor" content="#F3F6F1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thali Planner">
 <title>My Thali Planner</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: phone-first single column app — profile strip, tab bar, one panel at a time. Herb-and-spice palette. */
+/* Layout: app shell. Phone = sticky top bar + Material-style bottom navigation.
+   Desktop (>=900px) = left sidebar + centred content column. Herb-and-spice palette. */
 :root {
-  --bg: #F5F7F2;
+  --bg: #F3F6F1;
+  --bg-glass: rgba(243, 246, 241, .86);
   --surface: #FFFFFF;
-  --ink: #1C2620;
-  --muted: #5B6A60;
-  --line: #DCE3DA;
-  --leaf: #2E6B4C;
-  --leaf-soft: #E3F0E7;
-  --turmeric: #B97A0B;
-  --turmeric-soft: #FBF0D9;
-  --chili: #8A3B1E;
+  --surface-2: #EAF0EA;
+  --ink: #14201A;
+  --muted: #5E6E64;
+  --line: #DDE6DE;
+  --line-strong: #C3D0C6;
+  --shadow: rgba(20, 45, 30, .08);
+  --primary: #1F7A55;
+  --primary-strong: #155E40;
+  --primary-soft: #DDEFE4;
+  --primary-ink: #FFFFFF;
+  --accent: #E39B17;
+  --accent-strong: #9A6206;
+  --accent-soft: #FCEFD3;
+  --chili: #B5482A;
+  --chili-soft: #FBE6DE;
+  --sky: #2C7DA0;
+  --sky-soft: #E0F0F6;
   --warn: #A1361F;
   --warn-soft: #FBE7E1;
+  --hero-a: #1F7A55;
+  --hero-b: #0F4D35;
+  --hero-ink: #F3FBF6;
+  --wo-a: #F2B544;
+  --wo-b: #E08A12;
+  --wo-ink: #2B1A02;
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
   --font-mono: "DM Mono", ui-monospace, Consolas, monospace;
+  --radius: 20px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #111713; --surface: #19211C; --ink: #E5ECE6; --muted: #9CAAA0; --line: #2C3830;
-    --leaf: #6CC598; --leaf-soft: #1F3328; --turmeric: #E8B54D; --turmeric-soft: #33290F;
-    --chili: #E08A63; --warn: #F08C72; --warn-soft: #3A1E17; color-scheme: dark;
+    --bg: #0D1411; --bg-glass: rgba(13, 20, 17, .86); --surface: #151E19; --surface-2: #1D2922;
+    --ink: #E7EFE9; --muted: #9AABA0; --line: #26332B; --line-strong: #36463C; --shadow: rgba(0, 0, 0, .35);
+    --primary: #4FC28E; --primary-strong: #7DDBAF; --primary-soft: #1B3328; --primary-ink: #07130D;
+    --accent: #F0B54A; --accent-strong: #F5C86E; --accent-soft: #33280F;
+    --chili: #E9876A; --chili-soft: #3A2019; --sky: #6BC0E0; --sky-soft: #12303B;
+    --warn: #F08C72; --warn-soft: #3A1E17;
+    --hero-a: #1E6A4A; --hero-b: #0E3324; --hero-ink: #EAF7EF;
+    --wo-a: #D99A2B; --wo-b: #A8650A; --wo-ink: #1E1201;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #111713; --surface: #19211C; --ink: #E5ECE6; --muted: #9CAAA0; --line: #2C3830;
-  --leaf: #6CC598; --leaf-soft: #1F3328; --turmeric: #E8B54D; --turmeric-soft: #33290F;
-  --chili: #E08A63; --warn: #F08C72; --warn-soft: #3A1E17; color-scheme: dark;
+  --bg: #0D1411; --bg-glass: rgba(13, 20, 17, .86); --surface: #151E19; --surface-2: #1D2922;
+  --ink: #E7EFE9; --muted: #9AABA0; --line: #26332B; --line-strong: #36463C; --shadow: rgba(0, 0, 0, .35);
+  --primary: #4FC28E; --primary-strong: #7DDBAF; --primary-soft: #1B3328; --primary-ink: #07130D;
+  --accent: #F0B54A; --accent-strong: #F5C86E; --accent-soft: #33280F;
+  --chili: #E9876A; --chili-soft: #3A2019; --sky: #6BC0E0; --sky-soft: #12303B;
+  --warn: #F08C72; --warn-soft: #3A1E17;
+  --hero-a: #1E6A4A; --hero-b: #0E3324; --hero-ink: #EAF7EF;
+  --wo-a: #D99A2B; --wo-b: #A8650A; --wo-ink: #1E1201;
+  color-scheme: dark;
 }
+
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-img { max-width: 100%; }
-:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html { -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0;
-  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  -webkit-tap-highlight-color: transparent;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 40; background: var(--bg); }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -.01em; }
+h2 { font-size: 1.2rem; font-weight: 700; }
+h3 { font-size: 1rem; font-weight: 600; }
+p { margin: 0; }
+button { font-family: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.muted { color: var(--muted); }
+.small { font-size: .84rem; }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+
+/* ---------- shell ---------- */
+.app { min-height: 100vh; }
+@media (min-width: 900px) { .app { display: grid; grid-template-columns: 264px minmax(0, 1fr); } }
+
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
+.brand-mark { width: 36px; height: 36px; border-radius: 11px; background: var(--primary); display: grid; place-items: center; flex: 0 0 auto; }
+.brand-mark svg { width: 26px; height: 26px; }
+
+.sidebar { display: none; }
+@media (min-width: 900px) {
+  .sidebar {
+    display: flex; flex-direction: column; gap: 24px; position: sticky; top: 0; height: 100vh;
+    padding: 24px 16px; background: var(--surface); border-right: 1px solid var(--line);
+  }
+}
+.side-nav { display: grid; gap: 4px; }
+.side-nav button {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 0; border-radius: 14px;
+  background: transparent; color: var(--muted); font-size: .95rem; font-weight: 500; cursor: pointer; text-align: left;
+}
+.side-nav button:hover { background: var(--surface-2); color: var(--ink); }
+.side-nav button[aria-current="page"] { background: var(--primary-soft); color: var(--primary-strong); font-weight: 700; }
+.side-foot { margin-top: auto; display: grid; gap: 10px; }
+.target-card { background: var(--surface-2); border-radius: 16px; padding: 14px; display: grid; gap: 8px; }
+.target-row { display: flex; justify-content: space-between; gap: 8px; font-size: .85rem; }
+.target-row b { font-family: var(--font-mono); font-weight: 500; }
+
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-block: 10px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 20px 48px;
+  background: var(--bg-glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
 }
-.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
-h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
-h1 { font-size: 1.9rem; font-weight: 700; }
-h2 { font-size: 1.3rem; font-weight: 700; }
-h3 { font-size: 1.02rem; font-weight: 500; }
-p { margin: 0; }
-.muted { color: var(--muted); }
-.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-.eyebrow { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-
-header { display: grid; gap: 6px; }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.stat { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
-.stat b { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 500; }
-.stat span { font-size: .78rem; color: var(--muted); }
-@media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-
-.care { background: var(--turmeric-soft); border-radius: 12px; padding: 12px 14px; font-size: .9rem; }
-.care strong { color: var(--turmeric); }
-
-nav.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-nav.tabs button {
-  flex: 0 0 auto; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-  font: 500 .9rem var(--font-body); padding: 8px 14px; border-radius: 999px; cursor: pointer;
+@media (min-width: 900px) { .topbar { display: none; } }
+.top-actions { display: flex; gap: 6px; }
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+  color: var(--ink); display: grid; place-items: center; cursor: pointer;
 }
-nav.tabs button[aria-selected="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--bg); }
-button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--turmeric); outline-offset: 2px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; cursor: pointer;
+  background: var(--primary); color: var(--primary-ink); font-weight: 700; font-size: .9rem;
+  padding: 11px 18px; border-radius: 14px;
+}
+.btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); font-weight: 600; }
+.btn.full { width: 100%; }
 
-.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
-.toggle button { border: 0; background: transparent; color: var(--muted); font: 500 .85rem var(--font-body); padding: 6px 12px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-.toggle button[aria-pressed="true"] { background: var(--leaf-soft); color: var(--ink); }
+.main {
+  min-width: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 18px calc(104px + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 900px) {
+  .main { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); padding-block: 36px 56px; }
+}
+.view { max-width: 940px; margin: 0 auto; display: grid; gap: 20px; animation: rise .28s ease both; }
+@keyframes rise { from { transform: translateY(6px); } to { transform: none; } }
+.view-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; }
+.view-head > div:not(.seg) { display: grid; gap: 4px; min-width: 0; }
+
+.bottomnav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -8px 24px var(--shadow);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px);
+}
+@media (min-width: 900px) { .bottomnav { display: none; } }
+.bottomnav button {
+  display: grid; justify-items: center; gap: 4px; padding: 10px 2px 12px; border: 0; background: none;
+  color: var(--muted); font-size: .7rem; font-weight: 600; cursor: pointer; min-width: 0;
+}
+.bottomnav .pill { width: 58px; height: 32px; border-radius: 999px; display: grid; place-items: center; transition: background .2s; }
+.bottomnav button[aria-current="page"] { color: var(--ink); }
+.bottomnav button[aria-current="page"] .pill { background: var(--primary-soft); color: var(--primary-strong); }
+
+/* ---------- shared components ---------- */
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px; display: grid; gap: 12px; min-width: 0; box-shadow: 0 1px 2px var(--shadow);
+}
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.card-title { display: flex; align-items: center; gap: 10px; }
+.card-title .bubble { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary-strong); }
+.card-title .bubble.warn { background: var(--warn-soft); color: var(--warn); }
+.card-title .bubble.accent { background: var(--accent-soft); color: var(--accent-strong); }
+.card-title .bubble.sky { background: var(--sky-soft); color: var(--sky); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.badge { font-family: var(--font-mono); font-size: .74rem; font-weight: 500; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.badge.accent { background: var(--accent-soft); color: var(--accent-strong); }
+
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 999px; padding: 4px; gap: 2px; }
+.seg button {
+  border: 0; background: transparent; padding: 7px 14px; border-radius: 999px; color: var(--muted);
+  font-size: .85rem; font-weight: 600; cursor: pointer; display: inline-flex; gap: 7px; align-items: center;
+}
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px var(--shadow); }
+
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 4px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto; min-width: 58px; display: grid; justify-items: center; gap: 1px; padding: 9px 10px;
+  border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-size: .88rem; font-weight: 700; cursor: pointer;
+}
+.chip small { font-size: .7rem; font-weight: 500; color: var(--muted); font-family: var(--font-mono); }
+.chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+.chip[aria-pressed="true"] small { color: inherit; opacity: .85; }
 
 /* FSSAI-style food marks: green square + dot = veg, brown square + triangle = non-veg */
 .mark { width: 14px; height: 14px; border: 1.6px solid currentColor; border-radius: 2px; display: inline-grid; place-items: center; flex: 0 0 auto; }
 .mark::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.mark.veg { color: var(--leaf); }
+.mark.veg { color: var(--primary); }
 .mark.nv { color: var(--chili); }
 .mark.nv::after { border-radius: 0; width: 0; height: 0; background: none; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid currentColor; }
+.food { display: flex; gap: 9px; align-items: flex-start; }
+.food .mark { margin-top: 4px; }
 
-.panel { display: grid; gap: 16px; }
-.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.list li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: start; }
+.list li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; margin: 8px 0 0 4px; background: var(--primary); }
+.list.limit li::before { background: var(--chili); }
+.list.warn li::before { background: var(--warn); }
+.list.accent li::before { background: var(--accent); }
 
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
-.slot { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); align-items: start; }
-.slot:first-child { border-top: 0; }
-.slot time { font-family: var(--font-mono); font-size: .9rem; color: var(--leaf); padding-top: 2px; }
-.slot .body { display: grid; gap: 4px; min-width: 0; }
-.slot .food { display: flex; gap: 8px; align-items: flex-start; }
-.slot .food .mark { margin-top: 4px; }
-.slot .kcal { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); white-space: nowrap; padding-top: 3px; }
-.slot.habit time { color: var(--turmeric); }
-.slot.done .body h3, .slot.done .food span:last-child { text-decoration: line-through; text-decoration-color: var(--muted); }
-.check { width: 22px; height: 22px; accent-color: var(--leaf); cursor: pointer; margin: 2px 0 0; }
-.slot-right { display: grid; justify-items: end; gap: 6px; }
-
-.progress { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
-.progress > div { height: 100%; background: var(--leaf); width: 0; transition: width .3s; }
-@media (prefers-reduced-motion: reduce) { .progress > div { transition: none; } }
-
-.days { display: flex; gap: 6px; overflow-x: auto; }
-.days button { flex: 0 0 auto; min-width: 52px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 6px 8px; font: 500 .85rem var(--font-body); cursor: pointer; }
-.days button[aria-pressed="true"] { border-color: var(--leaf); background: var(--leaf-soft); }
-
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-size: .9rem; }
-th, td { text-align: left; padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
-thead th { border-top: 0; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-td:first-child { font-family: var(--font-mono); color: var(--leaf); white-space: nowrap; }
-
-.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 560px) { .cols { grid-template-columns: 1fr; } }
-.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; }
-.box ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
-.box.good h3 { color: var(--leaf); }
-.box.limit h3 { color: var(--warn); }
-.alert { background: var(--warn-soft); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+.alert { background: var(--warn-soft); border-color: transparent; }
 .alert h3 { color: var(--warn); }
-.alert ul { margin: 0; padding-left: 18px; }
 
-form.log { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
-form.log label { display: grid; gap: 4px; font-size: .8rem; color: var(--muted); }
-input[type="number"], input[type="date"] {
-  font: 500 .95rem var(--font-mono); padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
-  background: var(--surface); color: var(--ink); width: 150px; max-width: 100%;
+/* ---------- today ---------- */
+.hero {
+  position: relative; overflow: hidden; border-radius: 26px; padding: 22px;
+  background: linear-gradient(140deg, var(--hero-a), var(--hero-b)); color: var(--hero-ink);
+  display: grid; gap: 18px;
 }
-.btn { border: 0; background: var(--leaf); color: var(--bg); font: 600 .9rem var(--font-body); padding: 9px 16px; border-radius: 8px; cursor: pointer; }
-.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.hero::after {
+  content: ""; position: absolute; width: 260px; height: 260px; right: -90px; top: -110px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 181, 68, .45), rgba(242, 181, 68, 0) 70%); pointer-events: none;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero .eyebrow { color: var(--hero-ink); opacity: .78; }
+.hero h1 { font-size: 1.9rem; }
+.next { display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .16); border-radius: 18px; padding: 14px; }
+.next .ic { width: 44px; height: 44px; border-radius: 14px; background: rgba(255, 255, 255, .18); display: grid; place-items: center; flex: 0 0 auto; }
+.next .meta { font-family: var(--font-mono); font-size: .78rem; opacity: .85; }
+.next strong { display: block; font-family: var(--font-display); font-size: 1.15rem; margin: 2px 0; }
+.next p { opacity: .92; font-size: .92rem; }
+
+.rings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ring-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px 10px; display: grid; justify-items: center; gap: 6px; text-align: center; }
+.ring-wrap { position: relative; width: 66px; height: 66px; }
+.ring-wrap > svg { width: 100%; height: 100%; }
+.ring-wrap .ring-ic { position: absolute; inset: 0; display: grid; place-items: center; }
+.ring-wrap .ring-ic .icon { width: 22px; height: 22px; }
+.ring-val { font-family: var(--font-mono); font-size: .95rem; font-weight: 500; }
+.ring-label { font-size: .74rem; color: var(--muted); font-weight: 600; }
+.ring-fg { transition: stroke-dasharray .4s ease; }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.tl { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; transition: border-color .2s, box-shadow .2s, opacity .2s; }
+.tl .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary-strong); }
+.tl.habit .ic { background: var(--accent-soft); color: var(--accent-strong); }
+.tl.now { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.tl.done { opacity: .62; }
+.tl.done h3 { text-decoration: line-through; text-decoration-color: var(--muted); }
+.tl-body { display: grid; gap: 5px; min-width: 0; }
+.tl-top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.tl .time { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); }
+.tl .now-tag { font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--primary-strong); background: var(--primary-soft); padding: 2px 8px; border-radius: 999px; }
+.tl .note { font-size: .84rem; color: var(--muted); }
+.tick { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line-strong); background: transparent; display: grid; place-items: center; color: transparent; cursor: pointer; transition: background .15s, border-color .15s; }
+.tick .icon { width: 18px; height: 18px; stroke-width: 3; }
+.tick[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+
+.water { display: flex; gap: 8px; flex-wrap: wrap; }
+.glass { width: 36px; height: 46px; border: 2px solid var(--sky); border-radius: 5px 5px 12px 12px; background: transparent; cursor: pointer; position: relative; overflow: hidden; padding: 0; }
+.glass::after { content: ""; position: absolute; inset: 100% 0 0; background: var(--sky); opacity: .7; transition: inset .25s ease; }
+.glass[aria-pressed="true"]::after { inset: 30% 0 0; }
+
+/* ---------- meals ---------- */
+.meals { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.meal { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.meal-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.meal-top .when { display: flex; gap: 8px; align-items: center; color: var(--primary-strong); font-weight: 700; font-size: .85rem; }
+.total { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--primary-soft); color: var(--primary-strong); border-radius: 16px; padding: 14px 16px; font-weight: 600; }
+.total b { font-family: var(--font-mono); font-size: 1.1rem; }
+
+/* ---------- workout ---------- */
+.wo-hero { border-radius: 26px; padding: 22px; background: linear-gradient(140deg, var(--wo-a), var(--wo-b)); color: var(--wo-ink); display: grid; gap: 14px; }
+.wo-hero .eyebrow { color: var(--wo-ink); opacity: .75; }
+.wo-hero h2 { font-size: 1.5rem; font-weight: 800; }
+.wo-stats { display: flex; gap: 8px; flex-wrap: wrap; }
+.wo-stats span { display: inline-flex; gap: 6px; align-items: center; background: rgba(255, 255, 255, .3); padding: 5px 11px; border-radius: 999px; font-weight: 600; font-size: .82rem; }
+.wo-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: s; }
+.wo-steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: start; counter-increment: s; }
+.wo-steps li::before { content: counter(s); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .35); font: 600 .78rem var(--font-mono); }
+.ex-list { display: grid; }
+.ex { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); }
+.ex:first-child { border-top: 0; padding-top: 4px; }
+.ex .n { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-strong); font: 600 .9rem var(--font-mono); }
+.ex-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: center; }
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.stage { background: var(--surface-2); border-radius: 16px; padding: 14px; display: grid; gap: 6px; align-content: start; }
+.stage .wk { font-family: var(--font-mono); font-size: .78rem; color: var(--accent-strong); font-weight: 500; }
+.stage p { font-size: .86rem; }
+
+/* ---------- care ---------- */
+.plate { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 18px; align-items: center; }
+@media (max-width: 420px) { .plate { grid-template-columns: 1fr; justify-items: center; } }
+.plate svg { width: 130px; height: 130px; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.legend li { display: flex; gap: 10px; align-items: center; }
+.legend i { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto; }
+.kv { display: grid; gap: 0; }
+.kv div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .9rem; }
+.kv div:first-child { border-top: 0; }
+.kv dt { font-weight: 700; color: var(--primary-strong); }
+.kv dd { margin: 0; }
+
+/* ---------- progress ---------- */
+form.log { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+form.log label { display: grid; gap: 6px; font-size: .8rem; color: var(--muted); font-weight: 600; flex: 1 1 140px; }
+input[type="number"], input[type="date"] {
+  font: 500 1rem var(--font-mono); padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--surface-2); color: var(--ink); width: 100%;
+}
 .chart { width: 100%; height: auto; display: block; }
 .chart text { fill: var(--muted); font: 11px var(--font-mono); }
-.small { font-size: .82rem; }
-.water { display: flex; gap: 6px; flex-wrap: wrap; }
-.water button { width: 34px; height: 42px; border: 1.5px solid var(--leaf); border-radius: 4px 4px 10px 10px; background: transparent; cursor: pointer; position: relative; overflow: hidden; }
-.water button[aria-pressed="true"] { background: var(--leaf-soft); }
-.water button[aria-pressed="true"]::after { content: ""; position: absolute; inset: 35% 0 0; background: var(--leaf); opacity: .55; }
-footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+.milestones { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.milestone { background: var(--surface-2); border-radius: 16px; padding: 14px; display: grid; gap: 4px; }
+.milestone b { font-family: var(--font-display); font-size: 1.15rem; }
+
+footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
-    <span class="eyebrow">Personal plan · Weight loss · Sinus-friendly</span>
-    <h1>My Thali Planner</h1>
-    <p class="muted">A gentle, home-food plan to lose weight slowly and calm your blocked nose and sneezing. Built for a college day spent mostly sitting.</p>
-  </header>
+<!-- Icon sprite (Lucide-style line icons) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M14.4 14.4 9.6 9.6M18.66 21.49a2 2 0 1 1-2.83-2.83l-1.77 1.77a2 2 0 1 1-2.83-2.83l6.36-6.36a2 2 0 1 1 2.83 2.83l-1.77 1.77a2 2 0 1 1 2.83 2.83zM21.5 21.5l-1.4-1.4M3.9 3.9 2.5 2.5M6.4 12.77a2 2 0 1 1-2.83-2.83l1.77-1.77a2 2 0 1 1-2.83-2.83l2.83-2.83a2 2 0 1 1 2.83 2.83l1.77-1.77a2 2 0 1 1 2.83 2.83z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 17 13.5 8.5l-5 5L2 7M16 17h6v-6"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10ZM2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+  <symbol id="i-steth" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol>
+</svg>
 
-  <section class="stats" aria-label="Daily targets">
-    <div class="stat"><span>Daily target</span><b>1,450 kcal</b></div>
-    <div class="stat"><span>Protein</span><b>55–65 g</b></div>
-    <div class="stat"><span>Water</span><b>2.5 L</b></div>
-    <div class="stat"><span>Safe pace</span><b>0.25–0.5 kg/wk</b></div>
-  </section>
+<div class="app">
+  <aside class="sidebar" aria-label="Main">
+    <div class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="#fff"/><path d="M16 16V6a10 10 0 0 1 0 20Z" fill="#8FD3AE"/><path d="M16 16v10a10 10 0 0 1-10-10Z" fill="#F0B54A"/><path d="M16 16H6A10 10 0 0 1 16 6Z" fill="#E9876A"/></svg></span>
+      My Thali Planner
+    </div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-foot">
+      <div class="target-card">
+        <span class="eyebrow">Daily targets</span>
+        <div class="target-row"><span>Energy</span><b>1,430 kcal</b></div>
+        <div class="target-row"><span>Protein</span><b>55–65 g</b></div>
+        <div class="target-row"><span>Water</span><b>2.5 L</b></div>
+        <div class="target-row"><span>Steps</span><b>7–8k</b></div>
+      </div>
+      <button class="btn full" type="button" data-install hidden><svg class="icon"><use href="#i-download"/></svg>Install app</button>
+      <button class="btn ghost full" type="button" data-theme-toggle><svg class="icon"><use href="#i-moon"/></svg><span>Dark mode</span></button>
+    </div>
+  </aside>
 
-  <div class="care">
-    <strong>First step:</strong> if you are under 18 and still growing, please show this plan to a doctor or registered dietitian. Ask them about basic blood tests (thyroid, haemoglobin, vitamin D, and PCOS if your periods are irregular) and about your sinus symptoms. Never skip meals, crash diet or take weight-loss pills.
+  <div class="content">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="#fff"/><path d="M16 16V6a10 10 0 0 1 0 20Z" fill="#8FD3AE"/><path d="M16 16v10a10 10 0 0 1-10-10Z" fill="#F0B54A"/><path d="M16 16H6A10 10 0 0 1 16 6Z" fill="#E9876A"/></svg></span>
+        <span>Thali Planner</span>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" type="button" data-install hidden aria-label="Install app"><svg class="icon"><use href="#i-download"/></svg></button>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme"><svg class="icon"><use href="#i-moon"/></svg></button>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- TODAY -->
+      <section class="view" id="view-today" aria-labelledby="heroDate">
+        <div class="hero">
+          <div>
+            <span class="eyebrow" id="greet">Good morning</span>
+            <h1 id="heroDate">Today</h1>
+          </div>
+          <div class="next" id="nextUp"></div>
+        </div>
+
+        <div class="rings" id="rings"></div>
+
+        <div class="view-head">
+          <h2>Your day</h2>
+          <div class="seg pref-seg" role="group" aria-label="Food preference">
+            <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+            <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+          </div>
+        </div>
+        <ol class="timeline" id="timeline"></ol>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title"><span class="bubble sky"><svg class="icon"><use href="#i-drop"/></svg></span><h3>Water</h3></div>
+            <span class="badge num" id="waterCount">0 / 10</span>
+          </div>
+          <div class="water" id="water" aria-label="Glasses of water, 250 ml each"></div>
+          <p class="small muted">Tap a glass each time you drink 250 ml. Ten glasses is about 2.5 L. Drink it warm or at room temperature, because cold water can make a blocked nose worse.</p>
+        </div>
+      </section>
+
+      <!-- MEALS -->
+      <section class="view" id="view-meals" hidden>
+        <div class="view-head">
+          <div><span class="eyebrow">7-day menu</span><h1>Meal plan</h1></div>
+          <div class="seg pref-seg" role="group" aria-label="Food preference">
+            <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+            <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+          </div>
+        </div>
+        <div class="chips" id="mealDays" role="group" aria-label="Day"></div>
+        <div class="meals" id="mealList"></div>
+        <div class="total"><span>Total for the day</span><b>≈ 1,430 kcal</b></div>
+        <p class="small muted">Portions use a normal 200 ml katori (cup). Use 3–4 tsp of oil in total for the whole day. Roti and phulka mean without ghee. You can swap meals between days.</p>
+      </section>
+
+      <!-- WORKOUT -->
+      <section class="view" id="view-workout" hidden>
+        <div class="view-head">
+          <div><span class="eyebrow">Beginner · knee-friendly · no gym</span><h1>Workout</h1></div>
+        </div>
+        <div class="chips" id="exDays" role="group" aria-label="Day"></div>
+        <div class="wo-hero" id="woHero"></div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title"><span class="bubble accent"><svg class="icon"><use href="#i-dumbbell"/></svg></span><h3>Strength routines</h3></div>
+            <div class="seg" role="group" aria-label="Routine">
+              <button type="button" data-routine="A" aria-pressed="true">A · Mon &amp; Fri</button>
+              <button type="button" data-routine="B" aria-pressed="false">B · Wed</button>
+            </div>
+          </div>
+          <div class="ex-list" id="exList"></div>
+          <p class="small muted">Rest 45–60 seconds between sets. Breathe out as you push or stand up, and never hold your breath.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-trend"/></svg></span><h3>Build up week by week</h3></div>
+          <div class="stages">
+            <div class="stage"><span class="wk">Weeks 1–2</span><b>Get started</b><p>Walk 20–25 min at an easy pace. 1 set of each exercise. 5,000–6,000 steps a day.</p></div>
+            <div class="stage"><span class="wk">Weeks 3–4</span><b>Get brisk</b><p>Walk 30–35 min, fast enough that you can talk but not sing. 2 sets. 6,000–7,000 steps.</p></div>
+            <div class="stage"><span class="wk">Weeks 5–8</span><b>Add intervals</b><p>Walk 40–45 min, alternating 1 min fast and 2 min normal. 2–3 sets. 7,000–8,000 steps.</p></div>
+            <div class="stage"><span class="wk">Week 9+</span><b>Level up</b><p>Do 3 sets of the harder versions. Try cycling or swimming. 8,000–10,000 steps.</p></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-activity"/></svg></span><h3>During college hours</h3></div>
+            <ul class="list">
+              <li><span>After every 45–60 minutes of sitting, stand, stretch and walk for 2 minutes</span></li>
+              <li><span>Take the stairs, not the lift</span></li>
+              <li><span>Walk while you talk on the phone</span></li>
+              <li><span>Walk for 10 minutes after lunch</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="bubble sky"><svg class="icon"><use href="#i-wind"/></svg></span><h3>Breathing for your sinus</h3></div>
+            <ul class="list">
+              <li><span><b>Bhramari (humming bee):</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds</span></li>
+              <li><span><b>Anulom vilom:</b> slow alternate-nostril breathing for 3 minutes. Skip it if one side is fully blocked.</span></li>
+              <li><span>Do these after steam, and never force your breath</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card alert">
+          <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-alert"/></svg></span><h3>Stay safe</h3></div>
+          <ul class="list warn">
+            <li><span>Warm up for 5 minutes and cool down with 5 minutes of stretching</span></li>
+            <li><span>Stop and tell an adult or doctor if you feel chest pain, dizziness, severe breathlessness or wheezing</span></li>
+            <li><span>With a fever or body aches, rest. With only a mild blocked nose, a light walk is fine.</span></li>
+            <li><span>On cold or dusty days, exercise indoors or cover your nose and mouth</span></li>
+            <li><span>Exercise does not mean you should eat extra. Keep to your meal plan.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CARE -->
+      <section class="view" id="view-care" hidden>
+        <div class="view-head">
+          <div><span class="eyebrow">Sinus &amp; food</span><h1>Health tips</h1></div>
+          <div class="seg" role="group" aria-label="Topic">
+            <button type="button" data-care="sinus" aria-pressed="true">Sinus care</button>
+            <button type="button" data-care="food" aria-pressed="false">Food guide</button>
+          </div>
+        </div>
+
+        <div id="care-sinus" class="view" style="animation:none">
+          <p class="muted">These habits can ease a blocked nose and sneezing. They don't cure sinusitis or allergies, so see an ENT doctor if symptoms keep coming back.</p>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-check"/></svg></span><h3>Helps</h3></div>
+              <ul class="list">
+                <li><span>Warm water, clear soups and rasam through the day</span></li>
+                <li><span>1–2 cups of ginger–tulsi tea without sugar</span></li>
+                <li><span>Turmeric, garlic, black pepper and ginger in your cooking</span></li>
+                <li><span>Vitamin C fruits every day: amla, guava, orange, lemon</span></li>
+                <li><span>5–10 minutes of steam, morning and night. Keep your face a safe distance from the water.</span></li>
+                <li><span>Sleep with your head slightly raised, for 8–9 hours</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-alert"/></svg></span><h3>Avoid or limit</h3></div>
+              <ul class="list limit">
+                <li><span>Ice-cold water, ice cream, cold drinks, chilled juices</span></li>
+                <li><span>Fried snacks, bakery items, sugary sweets</span></li>
+                <li><span>Curd or buttermilk straight from the fridge, or late at night</span></li>
+                <li><span>Dust, perfume, incense smoke, and cold wind while riding</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <h3>About milk and dairy</h3>
+              <p class="small">Research does not show that milk causes sinus problems, but some people feel more blocked after cold milk. If you do, have dairy warm and earlier in the day. Don't cut it out completely, because teens need 1,000–1,300 mg of calcium a day. Ragi, sesame (til), greens and paneer also give calcium.</p>
+            </div>
+            <div class="card">
+              <h3>Frequent sneezing may be an allergy</h3>
+              <p class="small">Sneezing a lot and a blocked nose in the morning are often signs of allergic rhinitis, triggered by dust mites, pollen or cold air. A doctor can confirm this. Ask your doctor before trying a saline nasal rinse, and don't take allergy tablets without advice.</p>
+            </div>
+          </div>
+          <div class="card alert">
+            <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-steth"/></svg></span><h3>See a doctor soon if you have</h3></div>
+            <ul class="list warn">
+              <li><span>Fever, or pain and swelling around the eyes, cheeks or forehead</span></li>
+              <li><span>Symptoms for more than 10 days, or symptoms that improve and then get worse</span></li>
+              <li><span>Thick green or yellow mucus along with fever</span></li>
+              <li><span>Any change in your vision, or a severe headache</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="care-food" class="view" style="animation:none" hidden>
+          <div class="card">
+            <h3>Build every plate like this</h3>
+            <div class="plate">
+              <svg viewBox="0 0 130 130" role="img" aria-label="Plate: half vegetables, a quarter protein, a quarter grains">
+                <circle cx="65" cy="65" r="62" fill="var(--surface-2)"/>
+                <path d="M65 65 L65 10 A55 55 0 0 1 65 120 Z" fill="var(--primary)"/>
+                <path d="M65 65 L65 120 A55 55 0 0 1 10 65 Z" fill="var(--accent)"/>
+                <path d="M65 65 L10 65 A55 55 0 0 1 65 10 Z" fill="var(--chili)"/>
+                <circle cx="65" cy="65" r="55" fill="none" stroke="var(--surface)" stroke-width="3"/>
+              </svg>
+              <ul class="legend">
+                <li><i style="background:var(--primary)"></i><span><b>½ vegetables and salad</b><br><span class="small muted">sabzi, greens, cucumber, carrot</span></span></li>
+                <li><i style="background:var(--chili)"></i><span><b>¼ protein</b><br><span class="small muted">dal, paneer, egg, chicken, fish</span></span></li>
+                <li><i style="background:var(--accent)"></i><span><b>¼ roti or rice</b><br><span class="small muted">jowar, ragi, brown rice, phulka</span></span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-leaf"/></svg></span><h3>Eat more</h3></div>
+              <ul class="list">
+                <li><span>Dal, chana, rajma, moong sprouts, besan</span></li>
+                <li><span>Eggs, and chicken without skin or fish, grilled or in curry</span></li>
+                <li><span>Small portions of paneer and curd</span></li>
+                <li><span>Jowar, ragi, bajra, oats, brown rice, daliya</span></li>
+                <li><span>Whole fruit, not juice</span></li>
+                <li><span>Roasted chana, makhana, a few peanuts</span></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-alert"/></svg></span><h3>Once a week or less</h3></div>
+              <ul class="list limit">
+                <li><span>Samosa, pakora, chips, puffs, fried chicken</span></li>
+                <li><span>Maggi, pizza, burgers, canteen fried rice</span></li>
+                <li><span>Soft drinks, packaged juice, sugary chai</span></li>
+                <li><span>Biscuits, cakes, mithai, chocolates</span></li>
+                <li><span>Big portions of white rice, parotta, naan</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Daily nutrition targets</h3>
+            <dl class="kv">
+              <div><dt>Energy</dt><dd>About 1,430 kcal. Never go below 1,300.</dd></div>
+              <div><dt>Protein</dt><dd>55–65 g, with some in every meal</dd></div>
+              <div><dt>Fibre</dt><dd>25 g or more</dd></div>
+              <div><dt>Water</dt><dd>2.5 L, warm or at room temperature</dd></div>
+              <div><dt>Calcium</dt><dd>1,000–1,300 mg</dd></div>
+              <div><dt>Iron</dt><dd>15 mg: greens, dal, eggs and meat, eaten with lemon</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section class="view" id="view-progress" hidden>
+        <div class="view-head">
+          <div><span class="eyebrow">Weekly check-in</span><h1>Progress</h1></div>
+        </div>
+        <div class="card">
+          <p class="small muted">Weigh yourself once a week, on the same morning, before breakfast. Day-to-day changes are mostly water.</p>
+          <form class="log" id="logForm" novalidate>
+            <label for="logDate">Date<input type="date" id="logDate" required></label>
+            <label for="logKg">Weight (kg)<input type="number" id="logKg" min="30" max="200" step="0.1" inputmode="decimal" required placeholder="e.g. 64.5"></label>
+            <button class="btn" type="submit"><svg class="icon"><use href="#i-plus"/></svg>Add entry</button>
+          </form>
+          <p class="small" id="logMsg" role="status"></p>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Weight trend</h3><span class="badge" id="trendNote"></span></div>
+          <div id="chartWrap"></div>
+        </div>
+        <div class="card">
+          <h3>Milestones</h3>
+          <div class="milestones">
+            <div class="milestone"><span class="eyebrow">2–4 months</span><b>−5%</b><span class="small muted">5% below your starting weight. This already improves your health.</span></div>
+            <div class="milestone"><span class="eyebrow">5–8 months</span><b>−10%</b><span class="small muted">10% below your starting weight</span></div>
+            <div class="milestone"><span class="eyebrow">Long term</span><b>BMI 18.5–24.9</b><span class="small muted">BMI = kg ÷ (height in m)². Your doctor can set the right target as you grow.</span></div>
+          </div>
+        </div>
+        <div class="view-head">
+          <span class="small muted" id="entryCount"></span>
+          <button class="btn ghost" type="button" id="clearLog">Clear all entries</button>
+        </div>
+        <div class="card alert" id="clearConfirm" hidden>
+          <p>Delete every weight entry? This can't be undone.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" type="button" id="clearYes">Yes, delete</button>
+            <button class="btn ghost" type="button" id="clearNo">Keep them</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="foot">This is general guidance, not medical advice. If you are under 18 or have a health condition, check with a doctor or registered dietitian. Your ticks, water and weight entries are saved only on this device.</footer>
+    </main>
   </div>
 
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button role="tab" data-tab="today" aria-selected="true">Today</button>
-    <button role="tab" data-tab="week" aria-selected="false">7-day menu</button>
-    <button role="tab" data-tab="exercise" aria-selected="false">Exercise</button>
-    <button role="tab" data-tab="sinus" aria-selected="false">Sinus care</button>
-    <button role="tab" data-tab="guide" aria-selected="false">Food guide</button>
-    <button role="tab" data-tab="progress" aria-selected="false">Progress</button>
-  </nav>
-
-  <!-- TODAY -->
-  <section class="panel" id="tab-today" role="tabpanel">
-    <div class="row">
-      <div>
-        <h2 id="todayTitle">Today</h2>
-        <p class="muted small" id="todaySub"></p>
-      </div>
-      <div class="toggle" role="group" aria-label="Food preference">
-        <button data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
-        <button data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
-      </div>
-    </div>
-    <div style="display:grid;gap:6px">
-      <div class="row small"><span class="muted">Ticked off today</span><span class="num" id="doneCount">0 / 0</span></div>
-      <div class="progress"><div id="doneBar"></div></div>
-    </div>
-    <ol class="timeline" id="timeline"></ol>
-    <div class="box">
-      <div class="row"><h3>Water today</h3><span class="num small muted" id="waterCount">0 / 10 glasses</span></div>
-      <div class="water" id="water" aria-label="Glasses of water, 250 ml each"></div>
-      <p class="small muted">10 glasses × 250 ml ≈ 2.5 L. Drink warm or room-temperature water. Cold water can make a blocked nose feel worse.</p>
-    </div>
-  </section>
-
-  <!-- WEEK -->
-  <section class="panel" id="tab-week" role="tabpanel" hidden>
-    <div class="row">
-      <h2>7-day menu</h2>
-      <div class="toggle" role="group" aria-label="Food preference">
-        <button data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
-        <button data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
-      </div>
-    </div>
-    <div class="days" id="days"></div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Time</th><th>Meal</th><th>What to eat</th><th>≈ kcal</th></tr></thead>
-      <tbody id="weekBody"></tbody>
-    </table></div>
-    <p class="small muted">Portions use a normal 200 ml katori (cup). Cook with 3–4 tsp oil in total for the whole day. Roti/phulka means one without ghee. You can swap meals between days.</p>
-  </section>
-
-  <!-- EXERCISE -->
-  <section class="panel" id="tab-exercise" role="tabpanel" hidden>
-    <div>
-      <h2>Exercise plan</h2>
-      <p class="muted">A beginner plan that's easy on your knees: no jumping and no gym needed. Do it at 5:30 pm, at least 1½ hours after your snack. Start easy and build up over 8 weeks.</p>
-    </div>
-    <div class="days" id="exDays"></div>
-    <div class="box" id="exDay"></div>
-
-    <div class="box">
-      <h3>Strength A · Mon &amp; Fri · about 15 min</h3>
-      <div class="table-wrap" style="border:0"><table>
-        <thead><tr><th>Exercise</th><th>Sets × reps</th><th>How to do it</th></tr></thead>
-        <tbody id="strA"></tbody>
-      </table></div>
-    </div>
-    <div class="box">
-      <h3>Strength B · Wed · about 15 min</h3>
-      <div class="table-wrap" style="border:0"><table>
-        <thead><tr><th>Exercise</th><th>Sets × reps</th><th>How to do it</th></tr></thead>
-        <tbody id="strB"></tbody>
-      </table></div>
-      <p class="small muted">Rest 45–60 seconds between sets. Breathe out when you push or stand up, and never hold your breath.</p>
-    </div>
-
-    <div class="box">
-      <h3>Build up week by week</h3>
-      <div class="table-wrap" style="border:0"><table>
-        <thead><tr><th>Weeks</th><th>Walking</th><th>Strength</th><th>Daily steps</th></tr></thead>
-        <tbody>
-          <tr><td>1–2</td><td>20–25 min at a comfortable pace</td><td>1 set of each</td><td class="num">5,000–6,000</td></tr>
-          <tr><td>3–4</td><td>30–35 min, brisk (you can talk but not sing)</td><td>2 sets of each</td><td class="num">6,000–7,000</td></tr>
-          <tr><td>5–8</td><td>40–45 min. Add intervals: 1 min fast, 2 min normal</td><td>2–3 sets</td><td class="num">7,000–8,000</td></tr>
-          <tr><td>9+</td><td>45 min, or try cycling or swimming</td><td>3 sets, harder versions (squats without the chair, knee push-ups on the floor)</td><td class="num">8,000–10,000</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-
-    <div class="cols">
-      <div class="box"><h3>During college hours</h3><ul>
-        <li>After every 45–60 minutes of sitting, stand, stretch and walk for 2 minutes</li>
-        <li>Take the stairs, not the lift</li>
-        <li>Walk while you talk on the phone</li>
-        <li>Walk for 10 minutes after lunch</li>
-      </ul></div>
-      <div class="box"><h3>Breathing for your sinus · 5 min</h3><ul>
-        <li><b>Bhramari (humming bee):</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds. Humming may help air move in the sinuses.</li>
-        <li><b>Anulom vilom:</b> slow alternate-nostril breathing for 3 minutes. Skip it if one side is fully blocked.</li>
-        <li>Do these after steam, never forcefully</li>
-      </ul></div>
-    </div>
-
-    <div class="alert"><h3>Stay safe</h3><ul>
-      <li>Always warm up for 5 minutes (marching, arm circles) and cool down with 5 minutes of stretching</li>
-      <li>Stop and tell an adult or doctor if you feel chest pain, dizziness, severe breathlessness, or wheezing</li>
-      <li>With a fever or body aches, rest. With only a mild blocked nose, a light walk is fine.</li>
-      <li>On cold or dusty days, walk indoors or cover your nose and mouth with a scarf or mask</li>
-      <li>Wear proper sports shoes and sip water. During your periods, light walking and stretching are fine.</li>
-      <li>Exercise does not mean you should eat extra. Keep to your meal plan.</li>
-    </ul></div>
-  </section>
-
-  <!-- SINUS -->
-  <section class="panel" id="tab-sinus" role="tabpanel" hidden>
-    <h2>Sinus care through food and habits</h2>
-    <p class="muted">These habits can ease a blocked nose and sneezing. They do not cure sinusitis or allergies, so see a doctor (ENT) if symptoms keep coming back.</p>
-    <div class="cols">
-      <div class="box good"><h3>Helps</h3><ul>
-        <li>Warm water, clear soups and rasam through the day</li>
-        <li>Ginger–tulsi tea without sugar, 1–2 cups</li>
-        <li>Turmeric, garlic, black pepper and ginger in your cooking</li>
-        <li>Vitamin C fruits every day: amla, guava, orange, lemon</li>
-        <li>Steam inhalation for 5–10 minutes, morning and night (keep the water away from your face to avoid burns)</li>
-        <li>Sleeping with your head slightly raised on an extra pillow</li>
-        <li>8–9 hours of sleep. A tired body gets more colds.</li>
-      </ul></div>
-      <div class="box limit"><h3>Avoid or limit</h3><ul>
-        <li>Ice-cold water, ice cream, cold drinks, chilled juices</li>
-        <li>Fried snacks, bakery items, sweets with added sugar</li>
-        <li>Eating curd or buttermilk straight from the fridge or late at night. Have them at room temperature at lunch.</li>
-        <li>Dust, perfume, incense smoke and cold wind on two-wheelers. Cover your nose with a scarf or mask.</li>
-      </ul></div>
-    </div>
-    <div class="box"><h3>About milk and dairy</h3>
-      <p>Research does not show that milk causes sinus problems. Some people do feel more blocked after cold milk. If you notice that, have dairy warm, earlier in the day, or as curd at lunch. Don't cut it out completely: at your age you need about 1,000–1,300 mg of calcium a day. Ragi, sesame (til), green leafy vegetables and paneer also give calcium.</p>
-    </div>
-    <div class="box"><h3>Frequent sneezing may be an allergy</h3>
-      <p>Sneezing a lot and a blocked nose in the morning are often signs of allergic rhinitis, triggered by dust mites, pollen or cold air. A doctor can confirm this and suggest a safe treatment. A saline nasal rinse helps many people, but ask your doctor how to use it correctly. Don't take allergy or decongestant tablets without advice.</p>
-    </div>
-    <div class="alert"><h3>See a doctor soon if you have</h3><ul>
-      <li>Fever, or pain and swelling around the eyes, cheeks or forehead</li>
-      <li>Symptoms lasting more than 10 days, or getting better and then worse again</li>
-      <li>Thick green or yellow mucus along with fever</li>
-      <li>Any change in your vision, or a severe headache</li>
-    </ul></div>
-  </section>
-
-  <!-- GUIDE -->
-  <section class="panel" id="tab-guide" role="tabpanel" hidden>
-    <h2>How to build every plate</h2>
-    <div class="box">
-      <h3>The half-quarter-quarter plate</h3>
-      <svg viewBox="0 0 320 130" class="chart" role="img" aria-label="Plate: half vegetables, one quarter protein, one quarter grains">
-        <circle cx="65" cy="65" r="58" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
-        <path d="M65 65 L65 7 A58 58 0 0 1 65 123 Z" fill="var(--leaf)" opacity=".8"/>
-        <path d="M65 65 L65 123 A58 58 0 0 1 7 65 Z" fill="var(--turmeric)" opacity=".85"/>
-        <path d="M65 65 L7 65 A58 58 0 0 1 65 7 Z" fill="var(--chili)" opacity=".75"/>
-        <rect x="150" y="22" width="12" height="12" fill="var(--leaf)" opacity=".8"/><text x="170" y="32">½ vegetables + salad</text>
-        <rect x="150" y="58" width="12" height="12" fill="var(--chili)" opacity=".75"/><text x="170" y="68">¼ protein: dal, paneer,</text><text x="170" y="82">egg, chicken, fish</text>
-        <rect x="150" y="98" width="12" height="12" fill="var(--turmeric)" opacity=".85"/><text x="170" y="108">¼ roti or rice</text>
-      </svg>
-    </div>
-    <div class="cols">
-      <div class="box good"><h3>Eat more</h3><ul>
-        <li>Dal, chana, rajma, moong sprouts, besan</li>
-        <li>Eggs, chicken (no skin), fish: grilled, curry or soup</li>
-        <li>Paneer and curd in small portions</li>
-        <li>Jowar, ragi, bajra, oats, brown rice, daliya</li>
-        <li>All vegetables, especially leafy greens</li>
-        <li>Whole fruits (not juice): guava, orange, apple, papaya</li>
-        <li>Roasted chana, makhana, a small handful of peanuts</li>
-      </ul></div>
-      <div class="box limit"><h3>Limit to once a week or less</h3><ul>
-        <li>Samosa, pakora, chips, puffs, fried chicken</li>
-        <li>Maggi, pizza, burgers, canteen fried rice</li>
-        <li>Soft drinks, packaged juice, milkshakes, sugary chai</li>
-        <li>Biscuits, cakes, mithai, chocolates</li>
-        <li>Large portions of white rice, maida parotta, naan</li>
-      </ul></div>
-    </div>
-    <div class="box"><h3>Your daily nutrition targets</h3>
-      <div class="table-wrap" style="border:0"><table>
-        <tbody>
-          <tr><td>Energy</td><td>about 1,450 kcal (never below 1,300)</td></tr>
-          <tr><td>Protein</td><td>55–65 g, in every meal</td></tr>
-          <tr><td>Fibre</td><td>25 g or more, from vegetables, fruit, dal and whole grains</td></tr>
-          <tr><td>Water</td><td>2.5 litres, warm or at room temperature</td></tr>
-          <tr><td>Calcium</td><td>1,000–1,300 mg: curd, paneer, ragi, til, greens</td></tr>
-          <tr><td>Iron</td><td>15 mg: greens, dal, jaggery-free dates, eggs, meat, with lemon</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-  </section>
-
-  <!-- PROGRESS -->
-  <section class="panel" id="tab-progress" role="tabpanel" hidden>
-    <h2>Progress</h2>
-    <p class="muted">Weigh yourself once a week, on the same morning, before breakfast. Day-to-day changes are mostly water, so don't worry about them.</p>
-    <form class="log" id="logForm">
-      <label for="logDate">Date<input type="date" id="logDate" required></label>
-      <label for="logKg">Weight (kg)<input type="number" id="logKg" min="30" max="200" step="0.1" required placeholder="74.6"></label>
-      <button class="btn" type="submit">Add entry</button>
-    </form>
-    <p class="small" id="logMsg" role="status"></p>
-    <div class="box">
-      <div class="row"><h3>Weight trend</h3><span class="small muted" id="trendNote"></span></div>
-      <div id="chartWrap"></div>
-    </div>
-    <div class="box">
-      <h3>Milestones</h3>
-      <div class="table-wrap" style="border:0"><table>
-        <thead><tr><th>Goal</th><th>Weight</th><th>Realistic time</th></tr></thead>
-        <tbody>
-          <tr><td>First 5%</td><td>5% below your starting weight</td><td>2–4 months</td></tr>
-          <tr><td>First 10%</td><td>10% below your starting weight</td><td>5–8 months</td></tr>
-          <tr><td>Healthy BMI</td><td>BMI 18.5–24.9 (BMI = kg ÷ height in m²)</td><td>Long-term. Your doctor can set the right target as you grow.</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-    <div class="row"><span class="small muted" id="entryCount"></span><button class="btn ghost" type="button" id="clearLog">Clear all entries</button></div>
-    <p class="small" id="clearConfirm" hidden>Delete every weight entry? <button class="btn ghost" type="button" id="clearYes">Yes, delete</button> <button class="btn ghost" type="button" id="clearNo">Keep them</button></p>
-  </section>
-
-  <footer>This plan is general guidance, not medical advice. Your ticks, water and weight entries are saved only in this browser on this device.</footer>
+  <nav class="bottomnav" id="bottomNav" aria-label="Main"></nav>
 </div>
 
 <script>
 (function () {
   "use strict";
 
-  // ---------- safe storage (fails silently in private mode / previews) ----------
+  // ---------- helpers ----------
   const store = {
     get(key, fallback) {
       try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); } catch (e) { return fallback; }
     },
-    set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* ignore */ } }
+    set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* storage unavailable */ } }
   };
-
-  const todayKey = () => new Date().toISOString().slice(0, 10);
+  const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pad = n => String(n).padStart(2, "0");
+  const dateKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const toMin = t => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
+  const fmt12 = t => { let h = Number(t.slice(0, 2)); const ap = h >= 12 ? "pm" : "am"; h = h % 12 || 12; return `${h}:${t.slice(3)} ${ap}`; };
+  const icon = (n, cls = "icon") => `<svg class="${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 
-  // ---------- meal data: [veg, non-veg] per slot ----------
-  // Slots: B breakfast, M mid-morning, L lunch, S evening snack, D dinner
+  // ---------- data ----------
+  // Each meal slot: [vegetarian, non-vegetarian]
   const WEEK = [
     { day: "Mon",
       B: ["2 idli + 1 cup sambar + 1 tbsp coconut chutney", "2 idli + 1 cup sambar + 1 boiled egg"],
@@ -449,176 +725,257 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line
     { day: "Sun",
       B: ["2 idli or 1 cup upma + sambar", "2 idli + sambar + 1 boiled egg"],
       M: ["1 guava", "1 guava"],
-      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. chicken biryani, 1 cup) + raita + salad"],
+      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. 1 cup chicken biryani) + raita + salad"],
       S: ["1 fruit + ginger tea", "1 fruit + ginger tea"],
       D: ["1 bowl vegetable soup + 2 besan chilla", "1 bowl vegetable soup + 100 g grilled fish or chicken"] }
   ];
 
-  // Daily timeline (college day). kcal are approximate per slot.
   const SLOTS = [
-    { t: "07:00", id: "wake",  title: "Wake up", habit: true, note: "1–2 glasses of warm water. Add lemon and a slice of ginger if you like." },
-    { t: "07:10", id: "steam", title: "Steam + stretch", habit: true, note: "5–10 minutes of steam inhalation, then 10 minutes of stretching or yoga." },
-    { t: "07:45", id: "B", title: "Breakfast", kcal: 350, note: "Never skip it. It keeps you from overeating at college." },
-    { t: "10:45", id: "M", title: "Mid-morning fruit", kcal: 80, note: "Carry it from home instead of buying canteen snacks." },
-    { t: "13:00", id: "L", title: "Lunch", kcal: 450, note: "Eat slowly, for 15–20 minutes. Half your plate should be vegetables." },
-    { t: "16:30", id: "S", title: "Evening snack", kcal: 150, note: "Warm tea without sugar. Skip biscuits and fried snacks." },
-    { t: "17:30", id: "walk", title: "Exercise", habit: true, note: "See the Exercise tab." },
-    { t: "19:30", id: "D", title: "Dinner", kcal: 350, note: "Light and warm. Finish at least 2–3 hours before bed." },
-    { t: "21:15", id: "night", title: "Wind down", kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat haldi milk or turmeric–ginger water. Steam again if your nose is blocked." },
-    { t: "22:00", id: "sleep", title: "Sleep", habit: true, note: "Lights off by 10 pm for 9 hours of sleep until 7 am. Put your phone away 30 minutes before. Raise your head with an extra pillow." }
+    { t: "07:00", id: "wake",  icon: "sun",      title: "Wake up",           habit: true, note: "1–2 glasses of warm water. Add lemon and a slice of ginger if you like." },
+    { t: "07:10", id: "steam", icon: "wind",     title: "Steam + stretch",   habit: true, note: "5–10 minutes of steam, then 10 minutes of stretching or yoga." },
+    { t: "07:45", id: "B",     icon: "utensils", title: "Breakfast",         kcal: 350, note: "Never skip it. It keeps you from overeating at college." },
+    { t: "10:45", id: "M",     icon: "leaf",     title: "Mid-morning fruit", kcal: 80,  note: "Carry it from home instead of buying canteen snacks." },
+    { t: "13:00", id: "L",     icon: "utensils", title: "Lunch",             kcal: 450, note: "Eat slowly, for 15–20 minutes. Half your plate should be vegetables." },
+    { t: "16:30", id: "S",     icon: "cup",      title: "Evening snack",     kcal: 150, note: "Warm tea without sugar. Skip biscuits and fried snacks." },
+    { t: "17:30", id: "walk",  icon: "activity", title: "Exercise",          habit: true, note: "See the Workout tab." },
+    { t: "19:30", id: "D",     icon: "utensils", title: "Dinner",            kcal: 350, note: "Light and warm, and 2½ hours before bed." },
+    { t: "21:15", id: "night", icon: "moon",     title: "Wind down",         kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat haldi milk or turmeric–ginger water. Steam again if your nose is blocked." },
+    { t: "22:00", id: "sleep", icon: "moon",     title: "Sleep",             habit: true, note: "Lights off for 9 hours of sleep. Put your phone away 30 minutes before, and use an extra pillow." }
   ];
+  const TOTAL_KCAL = SLOTS.reduce((a, s) => a + (s.kcal || 0), 0);
 
-  // ---------- exercise data ----------
   const EX_WEEK = [
     { day: "Mon", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up: marching, arm circles", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
     { day: "Tue", title: "Long walk + stretch", mins: 50, steps: ["5 min warm-up", "35–40 min brisk walk", "10 min full-body stretching"] },
     { day: "Wed", title: "Strength B + walk", mins: 45, steps: ["5 min warm-up", "Strength B (15 min)", "20 min walk", "5 min stretching"] },
-    { day: "Thu", title: "Indoor cardio", mins: 40, steps: ["5 min warm-up", "20 min low-impact cardio: Bollywood dance video or fast marching (no jumping)", "10 min walk or stair climbing", "5 min stretching"] },
+    { day: "Thu", title: "Indoor cardio", mins: 40, steps: ["5 min warm-up", "20 min dance video or fast marching, with no jumping", "10 min walk or stair climbing", "5 min stretching"] },
     { day: "Fri", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
     { day: "Sat", title: "Fun activity", mins: 45, steps: ["45 min of something you enjoy: badminton, cycling, dancing, or a long walk with friends"] },
-    { day: "Sun", title: "Rest + gentle yoga", mins: 20, steps: ["Rest day. Your muscles recover today.", "Optional 15 min gentle yoga: cat–cow, child's pose, cobra, butterfly", "5 min breathing: bhramari and anulom vilom"] }
+    { day: "Sun", title: "Rest + gentle yoga", mins: 20, steps: ["Rest day. Your muscles recover today.", "Optional 15 min yoga: cat–cow, child's pose, cobra, butterfly", "5 min breathing: bhramari and anulom vilom"] }
   ];
-  const STRENGTH_A = [
-    ["Chair squat", "2 × 10", "Stand in front of a chair, sit back until you just touch it, then stand up. Keep your knees behind your toes."],
-    ["Wall push-up", "2 × 10", "Hands on the wall at shoulder height. Bend your elbows to bring your chest towards the wall, then push back."],
-    ["Glute bridge", "2 × 12", "Lie on your back with knees bent. Lift your hips, squeeze for 2 seconds, then lower."],
-    ["Standing knee raise", "2 × 20", "March in place, lifting each knee to hip height. Hold a wall if you need to."],
-    ["Knee plank", "2 × 20 sec", "On your forearms and knees, keep your body in a straight line from head to knees."]
-  ];
-  const STRENGTH_B = [
-    ["Step-up", "2 × 10 each leg", "Step up onto a stair, then down, holding the railing."],
-    ["Incline push-up", "2 × 8", "Hands on a sturdy table or bed edge, body straight. Lower your chest and push back."],
-    ["Supported reverse lunge", "2 × 8 each leg", "Hold a chair. Step one leg back and bend both knees a little, then return."],
-    ["Side-lying leg raise", "2 × 12 each side", "Lie on your side and lift your top leg slowly, then lower it."],
-    ["Bird-dog", "2 × 8 each side", "On your hands and knees, stretch out your opposite arm and leg. Hold for 2 seconds."]
+  const ROUTINES = {
+    A: [
+      ["Chair squat", "2 × 10", "Stand in front of a chair, sit back until you just touch it, then stand up. Keep your knees behind your toes."],
+      ["Wall push-up", "2 × 10", "Hands on the wall at shoulder height. Bend your elbows to bring your chest towards the wall, then push back."],
+      ["Glute bridge", "2 × 12", "Lie on your back with knees bent. Lift your hips, squeeze for 2 seconds, then lower."],
+      ["Standing knee raise", "2 × 20", "March in place, lifting each knee to hip height. Hold a wall if you need to."],
+      ["Knee plank", "2 × 20 s", "On your forearms and knees, keep a straight line from head to knees."]
+    ],
+    B: [
+      ["Step-up", "2 × 10 / leg", "Step up onto a stair and back down, holding the railing."],
+      ["Incline push-up", "2 × 8", "Hands on a sturdy table or bed edge, body straight. Lower your chest and push back."],
+      ["Supported reverse lunge", "2 × 8 / leg", "Hold a chair. Step one leg back and bend both knees a little, then return."],
+      ["Side-lying leg raise", "2 × 12 / side", "Lie on your side and lift your top leg slowly, then lower it."],
+      ["Bird-dog", "2 × 8 / side", "On your hands and knees, stretch out your opposite arm and leg. Hold for 2 seconds."]
+    ]
+  };
+
+  const VIEWS = [
+    { id: "today",    label: "Today",    icon: "sun" },
+    { id: "meals",    label: "Meals",    icon: "utensils" },
+    { id: "workout",  label: "Workout",  icon: "dumbbell" },
+    { id: "care",     label: "Tips",     icon: "heart" },
+    { id: "progress", label: "Progress", icon: "trend" }
   ];
 
   // ---------- state ----------
-  let pref = store.get("pref", "veg");
-  let tab = store.get("tab", "today");
-  const jsDay = new Date().getDay();                // 0 = Sun
-  const todayIdx = (jsDay + 6) % 7;                 // 0 = Mon
-  let weekIdx = todayIdx;
-  let exIdx = todayIdx;
-
-  function renderExercise() {
-    document.getElementById("exDays").innerHTML = EX_WEEK.map((d, i) =>
-      `<button type="button" data-i="${i}" aria-pressed="${i === exIdx}">${d.day}${i === todayIdx ? " ·" : ""}</button>`).join("");
-    document.querySelectorAll("#exDays button").forEach(b => b.addEventListener("click", () => { exIdx = +b.dataset.i; renderExercise(); }));
-    const d = EX_WEEK[exIdx];
-    document.getElementById("exDay").innerHTML =
-      `<div class="row"><h3>${esc(d.day)} · ${esc(d.title)}</h3><span class="num small muted">≈ ${d.mins} min · 5:30 pm</span></div>
-       <ul>${d.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ul>`;
-    const rows = list => list.map(r => `<tr><td style="font-family:var(--font-body);color:var(--ink);font-weight:600">${esc(r[0])}</td><td class="num" style="white-space:nowrap">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
-    document.getElementById("strA").innerHTML = rows(STRENGTH_A);
-    document.getElementById("strB").innerHTML = rows(STRENGTH_B);
-  }
+  const now = new Date();
+  const todayIdx = (now.getDay() + 6) % 7; // 0 = Monday
+  let pref = store.get("pref", "veg") === "nv" ? "nv" : "veg";
+  let mealDay = todayIdx, exDay = todayIdx, routine = todayIdx === 2 ? "B" : "A", care = "sinus";
   const prefIdx = () => (pref === "nv" ? 1 : 0);
+  const weekDates = WEEK.map((_, i) => { const d = new Date(now); d.setDate(now.getDate() - todayIdx + i); return d.getDate(); });
 
-  // ---------- tabs ----------
-  const tabButtons = document.querySelectorAll("nav.tabs button");
-  function showTab(name) {
-    tab = name; store.set("tab", name);
-    tabButtons.forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
-    document.querySelectorAll("[role=tabpanel]").forEach(p => { p.hidden = p.id !== "tab-" + name; });
-    if (name === "progress") renderChart();
+  // ---------- navigation (hash routing so the Android back button works) ----------
+  const navHTML = cls => VIEWS.map(v =>
+    `<button type="button" data-view="${v.id}">${cls === "bottom" ? `<span class="pill">${icon(v.icon)}</span>` : icon(v.icon)}<span>${v.label}</span></button>`).join("");
+  $("sideNav").innerHTML = navHTML("side");
+  $("bottomNav").innerHTML = navHTML("bottom");
+  document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => {
+    if (location.hash === "#" + b.dataset.view) show(b.dataset.view); else location.hash = b.dataset.view;
+  }));
+  function show(id) {
+    if (!VIEWS.some(v => v.id === id)) id = "today";
+    VIEWS.forEach(v => { $("view-" + v.id).hidden = v.id !== id; });
+    document.querySelectorAll("[data-view]").forEach(b => {
+      if (b.dataset.view === id) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+    store.set("view", id);
+    if (id === "today") renderToday();
+    if (id === "progress") renderChart();
+    window.scrollTo(0, 0);
   }
-  tabButtons.forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
 
-  // ---------- veg / non-veg toggle ----------
+  // ---------- preference ----------
   function setPref(p) {
     pref = p; store.set("pref", p);
     document.querySelectorAll("[data-pref]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.pref === p)));
-    renderToday(); renderWeek();
+    renderToday(); renderMeals();
   }
   document.querySelectorAll("[data-pref]").forEach(b => b.addEventListener("click", () => setPref(b.dataset.pref)));
 
   // ---------- today ----------
-  function getChecks() { return store.get("checks-" + todayKey(), {}); }
-  function renderToday() {
-    const plan = WEEK[todayIdx];
-    const checks = getChecks();
-    const markCls = pref === "nv" ? "nv" : "veg";
-    document.getElementById("todayTitle").textContent = "Today · " + plan.day;
-    document.getElementById("todaySub").textContent = "About 1,430 kcal across 5 meals. Tick each item as you finish it.";
-    const ol = document.getElementById("timeline");
-    ol.innerHTML = SLOTS.map(s => {
-      const food = plan[s.id] ? plan[s.id][prefIdx()] : null;
-      if (s.id === "walk") {
-        const ex = EX_WEEK[todayIdx];
-        s = Object.assign({}, s, { title: "Exercise · " + ex.title, note: ex.steps.join(" · ") + ". Full details are in the Exercise tab." });
-      }
-      const done = !!checks[s.id];
-      return `<li class="slot${s.habit ? " habit" : ""}${done ? " done" : ""}">
-        <time>${s.t}</time>
-        <div class="body">
-          <h3>${esc(s.title)}</h3>
-          ${food ? `<div class="food"><span class="mark ${markCls}"></span><span>${esc(food)}</span></div>` : ""}
-          <p class="small muted">${esc(s.note)}</p>
-        </div>
-        <div class="slot-right">
-          <input type="checkbox" class="check" id="chk-${s.id}" data-id="${s.id}" ${done ? "checked" : ""} aria-label="Mark ${esc(s.title)} done">
-          ${s.kcal ? `<span class="kcal">${s.kcal} kcal</span>` : ""}
-        </div>
-      </li>`;
-    }).join("");
-    ol.querySelectorAll(".check").forEach(c => c.addEventListener("change", () => {
-      const ch = getChecks(); ch[c.dataset.id] = c.checked; store.set("checks-" + todayKey(), ch);
-      c.closest(".slot").classList.toggle("done", c.checked); updateDone();
-    }));
-    updateDone(); renderWater();
-  }
-  function updateDone() {
-    const ch = getChecks();
-    const n = SLOTS.filter(s => ch[s.id]).length;
-    document.getElementById("doneCount").textContent = n + " / " + SLOTS.length;
-    document.getElementById("doneBar").style.width = (n / SLOTS.length * 100) + "%";
-  }
-  function renderWater() {
-    const key = "water-" + todayKey();
-    const count = store.get(key, 0);
-    const wrap = document.getElementById("water");
-    wrap.innerHTML = Array.from({ length: 10 }, (_, i) =>
-      `<button type="button" id="w${i}" aria-pressed="${i < count}" aria-label="Glass ${i + 1}"></button>`).join("");
-    document.getElementById("waterCount").textContent = count + " / 10 glasses";
-    wrap.querySelectorAll("button").forEach((b, i) => b.addEventListener("click", () => {
-      const next = (i + 1 === store.get(key, 0)) ? i : i + 1; // tap the last filled glass to undo it
-      store.set(key, next); renderWater();
-    }));
+  const checksKey = () => "checks-" + dateKey();
+  const waterKey = () => "water-" + dateKey();
+  const slotFor = s => {
+    if (s.id !== "walk") return s;
+    const ex = EX_WEEK[todayIdx];
+    return Object.assign({}, s, { title: "Exercise · " + ex.title, note: ex.steps.join(" · ") });
+  };
+
+  function ring(pct, color, ic) {
+    const C = 2 * Math.PI * 26, p = Math.max(0, Math.min(1, pct));
+    return `<div class="ring-wrap"><svg viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="32" r="26" fill="none" stroke="var(--surface-2)" stroke-width="7"/>
+      ${p > 0 ? `<circle class="ring-fg" cx="32" cy="32" r="26" fill="none" stroke="var(${color})" stroke-width="7" stroke-linecap="round" stroke-dasharray="${(C * p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/>` : ""}
+    </svg><span class="ring-ic" style="color:var(${color})">${icon(ic)}</span></div>`;
   }
 
-  // ---------- week ----------
-  function renderWeek() {
-    document.getElementById("days").innerHTML = WEEK.map((d, i) =>
-      `<button type="button" data-i="${i}" aria-pressed="${i === weekIdx}">${d.day}${i === todayIdx ? " ·" : ""}</button>`).join("");
-    document.querySelectorAll("#days button").forEach(b => b.addEventListener("click", () => { weekIdx = +b.dataset.i; renderWeek(); }));
-    const d = WEEK[weekIdx];
-    const markCls = pref === "nv" ? "nv" : "veg";
-    document.getElementById("weekBody").innerHTML = SLOTS.filter(s => d[s.id]).map(s =>
-      `<tr><td>${s.t}</td><td>${esc(s.title)}</td><td><span style="display:flex;gap:8px;align-items:flex-start"><span class="mark ${markCls}" style="margin-top:4px"></span><span>${esc(d[s.id][prefIdx()])}</span></span></td><td class="num">${s.kcal}</td></tr>`
-    ).join("") + `<tr><td>21:15</td><td>Optional</td><td>½ cup warm haldi milk or turmeric–ginger water</td><td class="num">50</td></tr>`;
+  function renderHero() {
+    const d = new Date();
+    const h = d.getHours();
+    $("greet").textContent = h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+    $("heroDate").textContent = d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" });
+    const mins = h * 60 + d.getMinutes();
+    const next = SLOTS.find(s => toMin(s.t) > mins);
+    if (!next) {
+      $("nextUp").innerHTML = `<span class="ic">${icon("moon")}</span><div><span class="meta">Day complete</span><strong>Time to rest</strong><p>Lights off, and well done today. Tomorrow starts at 7:00 am.</p></div>`;
+      return;
+    }
+    const s = slotFor(next);
+    const diff = toMin(s.t) - mins;
+    const inTxt = diff >= 60 ? `in ${Math.floor(diff / 60)} h ${diff % 60} min` : `in ${diff} min`;
+    const food = WEEK[todayIdx][s.id] ? WEEK[todayIdx][s.id][prefIdx()] : s.note;
+    $("nextUp").innerHTML = `<span class="ic">${icon(s.icon)}</span><div><span class="meta">Next up · ${fmt12(s.t)} · ${inTxt}</span><strong>${esc(s.title)}</strong><p>${esc(food)}</p></div>`;
   }
+
+  function renderRings() {
+    const ch = store.get(checksKey(), {});
+    const done = SLOTS.filter(s => ch[s.id]).length;
+    const water = store.get(waterKey(), 0);
+    const kcal = SLOTS.reduce((a, s) => a + (ch[s.id] && s.kcal ? s.kcal : 0), 0);
+    $("rings").innerHTML = `
+      <div class="ring-card">${ring(done / SLOTS.length, "--primary", "check")}<span class="ring-val">${done}/${SLOTS.length}</span><span class="ring-label">Plan done</span></div>
+      <div class="ring-card">${ring(water / 10, "--sky", "drop")}<span class="ring-val">${water}/10</span><span class="ring-label">Glasses</span></div>
+      <div class="ring-card">${ring(kcal / TOTAL_KCAL, "--accent", "flame")}<span class="ring-val">${kcal}</span><span class="ring-label">of ${TOTAL_KCAL.toLocaleString("en-IN")} kcal</span></div>`;
+  }
+
+  function renderTimeline() {
+    const ch = store.get(checksKey(), {});
+    const d = new Date(), mins = d.getHours() * 60 + d.getMinutes();
+    let currentId = null;
+    SLOTS.forEach(s => { if (toMin(s.t) <= mins) currentId = s.id; });
+    const markCls = pref === "nv" ? "nv" : "veg";
+    $("timeline").innerHTML = SLOTS.map(raw => {
+      const s = slotFor(raw);
+      const food = WEEK[todayIdx][s.id] ? WEEK[todayIdx][s.id][prefIdx()] : null;
+      const done = !!ch[s.id];
+      const isNow = s.id === currentId && !done;
+      return `<li class="tl${s.habit ? " habit" : ""}${done ? " done" : ""}${isNow ? " now" : ""}">
+        <span class="ic">${icon(s.icon)}</span>
+        <div class="tl-body">
+          <div class="tl-top"><span class="time">${fmt12(s.t)}</span>${isNow ? `<span class="now-tag">Now</span>` : ""}${s.kcal ? `<span class="badge">${s.kcal} kcal</span>` : ""}</div>
+          <h3>${esc(s.title)}</h3>
+          ${food ? `<div class="food"><span class="mark ${markCls}"></span><span>${esc(food)}</span></div>` : ""}
+          <p class="note">${esc(s.note)}</p>
+        </div>
+        <button type="button" class="tick" id="tick-${s.id}" data-id="${s.id}" aria-pressed="${done}" aria-label="Mark ${esc(s.title)} done">${icon("check")}</button>
+      </li>`;
+    }).join("");
+  }
+  $("timeline").addEventListener("click", e => {
+    const b = e.target.closest(".tick");
+    if (!b) return;
+    const ch = store.get(checksKey(), {});
+    ch[b.dataset.id] = !ch[b.dataset.id];
+    store.set(checksKey(), ch);
+    renderTimeline(); renderRings();
+  });
+
+  function renderWater() {
+    const count = store.get(waterKey(), 0);
+    $("water").innerHTML = Array.from({ length: 10 }, (_, i) =>
+      `<button type="button" class="glass" id="glass-${i}" data-i="${i}" aria-pressed="${i < count}" aria-label="Glass ${i + 1}"></button>`).join("");
+    $("waterCount").textContent = `${count} / 10 · ${(count * 0.25).toFixed(2).replace(/0$/, "")} L`;
+  }
+  $("water").addEventListener("click", e => {
+    const b = e.target.closest(".glass");
+    if (!b) return;
+    const i = Number(b.dataset.i);
+    const cur = store.get(waterKey(), 0);
+    store.set(waterKey(), i + 1 === cur ? i : i + 1); // tapping the last filled glass empties it
+    renderWater(); renderRings();
+  });
+
+  function renderToday() { renderHero(); renderRings(); renderTimeline(); renderWater(); }
+
+  // ---------- meals ----------
+  const chipsHTML = (sel, attr) => WEEK.map((d, i) =>
+    `<button type="button" class="chip" ${attr}="${i}" aria-pressed="${i === sel}">${d.day}<small>${i === todayIdx ? "Today" : weekDates[i]}</small></button>`).join("");
+  function renderMeals() {
+    $("mealDays").innerHTML = chipsHTML(mealDay, "data-mday");
+    const d = WEEK[mealDay];
+    const markCls = pref === "nv" ? "nv" : "veg";
+    const meals = SLOTS.filter(s => d[s.id]).map(s => ({ t: s.t, title: s.title, icon: s.icon, kcal: s.kcal, food: d[s.id][prefIdx()] }));
+    meals.push({ t: "21:15", title: "Optional at night", icon: "moon", kcal: 50, food: "½ cup warm haldi milk or turmeric–ginger water" });
+    $("mealList").innerHTML = meals.map(m => `<article class="meal">
+      <div class="meal-top"><span class="when">${icon(m.icon)}${fmt12(m.t)}</span><span class="badge">${m.kcal} kcal</span></div>
+      <h3>${esc(m.title)}</h3>
+      <div class="food"><span class="mark ${markCls}"></span><span>${esc(m.food)}</span></div>
+    </article>`).join("");
+  }
+  $("mealDays").addEventListener("click", e => {
+    const b = e.target.closest("[data-mday]"); if (!b) return;
+    mealDay = Number(b.dataset.mday); renderMeals();
+  });
+
+  // ---------- workout ----------
+  function renderWorkout() {
+    $("exDays").innerHTML = chipsHTML(exDay, "data-xday");
+    const d = EX_WEEK[exDay];
+    $("woHero").innerHTML = `
+      <div><span class="eyebrow">${exDay === todayIdx ? "Today's workout" : d.day + " workout"}</span><h2>${esc(d.title)}</h2></div>
+      <div class="wo-stats"><span>${icon("clock")}${d.mins} min</span><span>${icon("sun")}5:30 pm</span></div>
+      <ol class="wo-steps">${d.steps.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol>`;
+    document.querySelectorAll("[data-routine]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.routine === routine)));
+    $("exList").innerHTML = ROUTINES[routine].map((r, i) => `<div class="ex">
+      <span class="n">${i + 1}</span>
+      <div style="display:grid;gap:4px;min-width:0">
+        <div class="ex-head"><h3>${esc(r[0])}</h3><span class="badge accent">${esc(r[1])}</span></div>
+        <p class="small muted">${esc(r[2])}</p>
+      </div></div>`).join("");
+  }
+  $("exDays").addEventListener("click", e => {
+    const b = e.target.closest("[data-xday]"); if (!b) return;
+    exDay = Number(b.dataset.xday);
+    if (exDay === 2) routine = "B"; else if (exDay === 0 || exDay === 4) routine = "A";
+    renderWorkout();
+  });
+  document.querySelectorAll("[data-routine]").forEach(b => b.addEventListener("click", () => { routine = b.dataset.routine; renderWorkout(); }));
+
+  // ---------- care ----------
+  document.querySelectorAll("[data-care]").forEach(b => b.addEventListener("click", () => {
+    care = b.dataset.care;
+    document.querySelectorAll("[data-care]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.care === care)));
+    $("care-sinus").hidden = care !== "sinus";
+    $("care-food").hidden = care !== "food";
+  }));
 
   // ---------- progress ----------
   function getLog() {
     const log = store.get("weights", []);
     return Array.isArray(log) ? log.filter(e => e && typeof e.kg === "number" && /^\d{4}-\d{2}-\d{2}$/.test(e.date)) : [];
   }
-  function updateStats() {
-    const log = getLog();
-    document.getElementById("entryCount").textContent = log.length + (log.length === 1 ? " entry saved" : " entries saved");
-  }
   function renderChart() {
     const log = getLog();
-    const wrap = document.getElementById("chartWrap");
-    const note = document.getElementById("trendNote");
     const isSample = log.length < 2;
     const pts = isSample
-      ? [ { date: "Week 1", kg: 68 }, { date: "Week 2", kg: 67.6 }, { date: "Week 3", kg: 67.4 }, { date: "Week 4", kg: 66.9 }, { date: "Week 5", kg: 66.6 } ]
+      ? [{ date: "Wk 1", kg: 68 }, { date: "Wk 2", kg: 67.6 }, { date: "Wk 3", kg: 67.4 }, { date: "Wk 4", kg: 66.9 }, { date: "Wk 5", kg: 66.6 }]
       : log.slice(-12);
-    note.textContent = isSample ? "Example trend · add 2+ entries to see yours"
-      : ((pts[pts.length - 1].kg - pts[0].kg) <= 0 ? "Down " : "Up ") + Math.abs(pts[pts.length - 1].kg - pts[0].kg).toFixed(1) + " kg";
-    const W = 640, H = 220, L = 44, R = 16, T = 14, B = 30;
+    const delta = pts[pts.length - 1].kg - pts[0].kg;
+    $("trendNote").textContent = isSample ? "Example · add 2 entries to see yours" : (delta <= 0 ? "▼ " : "▲ ") + Math.abs(delta).toFixed(1) + " kg";
+    const W = 640, H = 230, L = 44, R = 20, T = 24, B = 30;
     const kgs = pts.map(p => p.kg);
     let lo = Math.floor(Math.min(...kgs) - 0.5), hi = Math.ceil(Math.max(...kgs) + 0.5);
     if (hi - lo < 2) hi = lo + 2;
@@ -627,55 +984,98 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line
     const step = Math.max(1, Math.round((hi - lo) / 4));
     let grid = "";
     for (let v = lo; v <= hi; v += step) {
-      grid += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+      grid += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
     }
     const line = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(p.kg).toFixed(1)}`).join(" ");
-    const area = line + ` L${x(pts.length - 1)} ${H - B} L${x(0)} ${H - B} Z`;
-    const labelEvery = Math.ceil(pts.length / 6);
-    const xl = pts.map((p, i) => (i % labelEvery === 0 || i === pts.length - 1)
+    const area = `${line} L${x(pts.length - 1)} ${H - B} L${x(0)} ${H - B} Z`;
+    const every = Math.ceil(pts.length / 6);
+    const xl = pts.map((p, i) => (i % every === 0 || i === pts.length - 1)
       ? `<text x="${x(i)}" y="${H - 10}" text-anchor="middle">${esc(isSample ? p.date : p.date.slice(5))}</text>` : "").join("");
     const last = pts[pts.length - 1];
-    wrap.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart">
+    $("chartWrap").innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart">
+      <defs><linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--primary)" stop-opacity="${isSample ? .12 : .28}"/><stop offset="1" stop-color="var(--primary)" stop-opacity="0"/></linearGradient></defs>
       ${grid}
-      <path d="${area}" fill="var(--leaf)" opacity="${isSample ? 0.06 : 0.12}"/>
-      <path d="${line}" fill="none" stroke="var(--leaf)" stroke-width="2.5" ${isSample ? 'stroke-dasharray="6 5"' : ""}/>
-      <circle cx="${x(pts.length - 1)}" cy="${y(last.kg)}" r="5" fill="var(--leaf)"/>
-      <text x="${x(pts.length - 1) - 8}" y="${y(last.kg) - 10}" text-anchor="end" style="fill:var(--ink)">${last.kg.toFixed(1)} kg</text>
+      <path d="${area}" fill="url(#gArea)"/>
+      <path d="${line}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ${isSample ? 'stroke-dasharray="7 6"' : ""}/>
+      <circle cx="${x(pts.length - 1)}" cy="${y(last.kg)}" r="6" fill="var(--primary)" stroke="var(--surface)" stroke-width="3"/>
+      <text x="${x(pts.length - 1) - 10}" y="${y(last.kg) - 12}" text-anchor="end" style="fill:var(--ink);font-weight:500">${last.kg.toFixed(1)} kg</text>
       ${xl}
     </svg>`;
-    updateStats();
+    $("entryCount").textContent = log.length + (log.length === 1 ? " entry saved" : " entries saved");
   }
-  const form = document.getElementById("logForm");
-  document.getElementById("logDate").value = todayKey();
-  form.addEventListener("submit", e => {
+  $("logDate").value = dateKey();
+  $("logForm").addEventListener("submit", e => {
     e.preventDefault();
-    const date = document.getElementById("logDate").value;
-    const kg = parseFloat(document.getElementById("logKg").value);
-    const msg = document.getElementById("logMsg");
+    const date = $("logDate").value;
+    const kg = parseFloat($("logKg").value);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !(kg >= 30 && kg <= 200)) {
-      msg.textContent = "Enter a date and a weight between 30 and 200 kg."; return;
+      $("logMsg").textContent = "Enter a date and a weight between 30 and 200 kg."; return;
     }
     const log = getLog().filter(en => en.date !== date);
     log.push({ date, kg: Math.round(kg * 10) / 10 });
     log.sort((a, b) => a.date.localeCompare(b.date));
     store.set("weights", log);
-    msg.textContent = "Saved " + kg.toFixed(1) + " kg for " + date + ".";
-    document.getElementById("logKg").value = "";
+    $("logMsg").textContent = `Saved ${kg.toFixed(1)} kg for ${date}.`;
+    $("logKg").value = "";
     renderChart();
   });
-  const clearConfirm = document.getElementById("clearConfirm");
-  document.getElementById("clearLog").addEventListener("click", () => { clearConfirm.hidden = false; });
-  document.getElementById("clearNo").addEventListener("click", () => { clearConfirm.hidden = true; });
-  document.getElementById("clearYes").addEventListener("click", () => {
-    store.set("weights", []); clearConfirm.hidden = true;
-    document.getElementById("logMsg").textContent = "All entries deleted."; renderChart();
+  $("clearLog").addEventListener("click", () => { $("clearConfirm").hidden = false; });
+  $("clearNo").addEventListener("click", () => { $("clearConfirm").hidden = true; });
+  $("clearYes").addEventListener("click", () => {
+    store.set("weights", []); $("clearConfirm").hidden = true;
+    $("logMsg").textContent = "All entries deleted."; renderChart();
   });
 
+  // ---------- theme ----------
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const isDark = () => {
+    const t = document.documentElement.getAttribute("data-theme");
+    return t ? t === "dark" : mq.matches;
+  };
+  function paintThemeUI() {
+    const dark = isDark();
+    $("themeColor").setAttribute("content", dark ? "#0D1411" : "#F3F6F1");
+    document.querySelectorAll("[data-theme-toggle]").forEach(b => {
+      b.querySelector("use").setAttribute("href", dark ? "#i-sun" : "#i-moon");
+      const label = b.querySelector("span"); if (label) label.textContent = dark ? "Light mode" : "Dark mode";
+    });
+  }
+  const savedTheme = store.get("theme", null);
+  if (savedTheme === "dark" || savedTheme === "light") document.documentElement.setAttribute("data-theme", savedTheme);
+  document.querySelectorAll("[data-theme-toggle]").forEach(b => b.addEventListener("click", () => {
+    const next = isDark() ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    store.set("theme", next); paintThemeUI();
+  }));
+  if (mq.addEventListener) mq.addEventListener("change", paintThemeUI);
+
+  // ---------- install (Android / desktop Chrome & Edge) ----------
+  let deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault(); deferredPrompt = e;
+    document.querySelectorAll("[data-install]").forEach(b => { b.hidden = false; });
+  });
+  document.querySelectorAll("[data-install]").forEach(b => b.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch (e) { /* dismissed */ }
+    deferredPrompt = null;
+    document.querySelectorAll("[data-install]").forEach(x => { x.hidden = true; });
+  }));
+  window.addEventListener("appinstalled", () => document.querySelectorAll("[data-install]").forEach(x => { x.hidden = true; }));
+
+  // ---------- offline support ----------
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => { /* offline mode unavailable */ }); });
+  }
+
   // ---------- boot ----------
-  setPref(pref === "nv" ? "nv" : "veg");
-  renderExercise();
-  showTab(["today", "week", "exercise", "sinus", "guide", "progress"].includes(tab) ? tab : "today");
-  renderChart();
+  setPref(pref);
+  renderMeals();
+  renderWorkout();
+  paintThemeUI();
+  show(location.hash.slice(1) || store.get("view", "today"));
+  setInterval(() => { if (!$("view-today").hidden) { renderHero(); renderTimeline(); } }, 60000);
 })();
 </script>
 </body>

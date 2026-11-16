@@ -11,6 +11,20 @@ A single-page diet, exercise and habit planner for students who want to lose wei
 - **Food guide:** how to fill your plate and daily nutrition targets
 - **Progress:** a weekly weight log with a trend chart
 
+## Install on Android
+
+The app is a Progressive Web App (PWA).
+
+1. Open the GitHub Pages link in **Chrome** on your Android phone.
+2. Tap **Install app**, or open the ⋮ menu and choose **Add to Home screen** / **Install app**.
+3. It opens full-screen from its own icon and keeps working offline.
+
+On a computer, Chrome and Edge show an install icon in the address bar.
+
+## Updating
+
+After changing `index.html`, increase `CACHE_VERSION` in `sw.js` (for example `thali-v3`) so installed copies pick up the new version.
+
 ## Privacy
 
 There is no server, account or tracking. Ticks, water counts and weight entries are saved only in the visitor's own browser (`localStorage`).
