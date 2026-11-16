@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A sinus-friendly Indian diet, exercise and habit planner for students.">
+<title>My Thali Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone-first single column app — profile strip, tab bar, one panel at a time. Herb-and-spice palette. */
+:root {
+  --bg: #F5F7F2;
+  --surface: #FFFFFF;
+  --ink: #1C2620;
+  --muted: #5B6A60;
+  --line: #DCE3DA;
+  --leaf: #2E6B4C;
+  --leaf-soft: #E3F0E7;
+  --turmeric: #B97A0B;
+  --turmeric-soft: #FBF0D9;
+  --chili: #8A3B1E;
+  --warn: #A1361F;
+  --warn-soft: #FBE7E1;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111713; --surface: #19211C; --ink: #E5ECE6; --muted: #9CAAA0; --line: #2C3830;
+    --leaf: #6CC598; --leaf-soft: #1F3328; --turmeric: #E8B54D; --turmeric-soft: #33290F;
+    --chili: #E08A63; --warn: #F08C72; --warn-soft: #3A1E17; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111713; --surface: #19211C; --ink: #E5ECE6; --muted: #9CAAA0; --line: #2C3830;
+  --leaf: #6CC598; --leaf-soft: #1F3328; --turmeric: #E8B54D; --turmeric-soft: #33290F;
+  --chili: #E08A63; --warn: #F08C72; --warn-soft: #3A1E17; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: 1.9rem; font-weight: 700; }
+h2 { font-size: 1.3rem; font-weight: 700; }
+h3 { font-size: 1.02rem; font-weight: 500; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+header { display: grid; gap: 6px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.stat { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
+.stat b { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 500; }
+.stat span { font-size: .78rem; color: var(--muted); }
+@media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+.care { background: var(--turmeric-soft); border-radius: 12px; padding: 12px 14px; font-size: .9rem; }
+.care strong { color: var(--turmeric); }
+
+nav.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+nav.tabs button {
+  flex: 0 0 auto; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font: 500 .9rem var(--font-body); padding: 8px 14px; border-radius: 999px; cursor: pointer;
+}
+nav.tabs button[aria-selected="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--bg); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--turmeric); outline-offset: 2px; }
+
+.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+.toggle button { border: 0; background: transparent; color: var(--muted); font: 500 .85rem var(--font-body); padding: 6px 12px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.toggle button[aria-pressed="true"] { background: var(--leaf-soft); color: var(--ink); }
+
+/* FSSAI-style food marks: green square + dot = veg, brown square + triangle = non-veg */
+.mark { width: 14px; height: 14px; border: 1.6px solid currentColor; border-radius: 2px; display: inline-grid; place-items: center; flex: 0 0 auto; }
+.mark::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.mark.veg { color: var(--leaf); }
+.mark.nv { color: var(--chili); }
+.mark.nv::after { border-radius: 0; width: 0; height: 0; background: none; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid currentColor; }
+
+.panel { display: grid; gap: 16px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.slot { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); align-items: start; }
+.slot:first-child { border-top: 0; }
+.slot time { font-family: var(--font-mono); font-size: .9rem; color: var(--leaf); padding-top: 2px; }
+.slot .body { display: grid; gap: 4px; min-width: 0; }
+.slot .food { display: flex; gap: 8px; align-items: flex-start; }
+.slot .food .mark { margin-top: 4px; }
+.slot .kcal { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+.slot.habit time { color: var(--turmeric); }
+.slot.done .body h3, .slot.done .food span:last-child { text-decoration: line-through; text-decoration-color: var(--muted); }
+.check { width: 22px; height: 22px; accent-color: var(--leaf); cursor: pointer; margin: 2px 0 0; }
+.slot-right { display: grid; justify-items: end; gap: 6px; }
+
+.progress { height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.progress > div { height: 100%; background: var(--leaf); width: 0; transition: width .3s; }
+@media (prefers-reduced-motion: reduce) { .progress > div { transition: none; } }
+
+.days { display: flex; gap: 6px; overflow-x: auto; }
+.days button { flex: 0 0 auto; min-width: 52px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 6px 8px; font: 500 .85rem var(--font-body); cursor: pointer; }
+.days button[aria-pressed="true"] { border-color: var(--leaf); background: var(--leaf-soft); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+thead th { border-top: 0; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td:first-child { font-family: var(--font-mono); color: var(--leaf); white-space: nowrap; }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .cols { grid-template-columns: 1fr; } }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; }
+.box ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.box.good h3 { color: var(--leaf); }
+.box.limit h3 { color: var(--warn); }
+.alert { background: var(--warn-soft); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+.alert h3 { color: var(--warn); }
+.alert ul { margin: 0; padding-left: 18px; }
+
+form.log { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+form.log label { display: grid; gap: 4px; font-size: .8rem; color: var(--muted); }
+input[type="number"], input[type="date"] {
+  font: 500 .95rem var(--font-mono); padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink); width: 150px; max-width: 100%;
+}
+.btn { border: 0; background: var(--leaf); color: var(--bg); font: 600 .9rem var(--font-body); padding: 9px 16px; border-radius: 8px; cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.chart { width: 100%; height: auto; display: block; }
+.chart text { fill: var(--muted); font: 11px var(--font-mono); }
+.small { font-size: .82rem; }
+.water { display: flex; gap: 6px; flex-wrap: wrap; }
+.water button { width: 34px; height: 42px; border: 1.5px solid var(--leaf); border-radius: 4px 4px 10px 10px; background: transparent; cursor: pointer; position: relative; overflow: hidden; }
+.water button[aria-pressed="true"] { background: var(--leaf-soft); }
+.water button[aria-pressed="true"]::after { content: ""; position: absolute; inset: 35% 0 0; background: var(--leaf); opacity: .55; }
+footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Personal plan · Weight loss · Sinus-friendly</span>
+    <h1>My Thali Planner</h1>
+    <p class="muted">A gentle, home-food plan to lose weight slowly and calm your blocked nose and sneezing. Built for a college day spent mostly sitting.</p>
+  </header>
+
+  <section class="stats" aria-label="Daily targets">
+    <div class="stat"><span>Daily target</span><b>1,450 kcal</b></div>
+    <div class="stat"><span>Protein</span><b>55–65 g</b></div>
+    <div class="stat"><span>Water</span><b>2.5 L</b></div>
+    <div class="stat"><span>Safe pace</span><b>0.25–0.5 kg/wk</b></div>
+  </section>
+
+  <div class="care">
+    <strong>First step:</strong> if you are under 18 and still growing, please show this plan to a doctor or registered dietitian. Ask them about basic blood tests (thyroid, haemoglobin, vitamin D, and PCOS if your periods are irregular) and about your sinus symptoms. Never skip meals, crash diet or take weight-loss pills.
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" data-tab="today" aria-selected="true">Today</button>
+    <button role="tab" data-tab="week" aria-selected="false">7-day menu</button>
+    <button role="tab" data-tab="exercise" aria-selected="false">Exercise</button>
+    <button role="tab" data-tab="sinus" aria-selected="false">Sinus care</button>
+    <button role="tab" data-tab="guide" aria-selected="false">Food guide</button>
+    <button role="tab" data-tab="progress" aria-selected="false">Progress</button>
+  </nav>
+
+  <!-- TODAY -->
+  <section class="panel" id="tab-today" role="tabpanel">
+    <div class="row">
+      <div>
+        <h2 id="todayTitle">Today</h2>
+        <p class="muted small" id="todaySub"></p>
+      </div>
+      <div class="toggle" role="group" aria-label="Food preference">
+        <button data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+        <button data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+      </div>
+    </div>
+    <div style="display:grid;gap:6px">
+      <div class="row small"><span class="muted">Ticked off today</span><span class="num" id="doneCount">0 / 0</span></div>
+      <div class="progress"><div id="doneBar"></div></div>
+    </div>
+    <ol class="timeline" id="timeline"></ol>
+    <div class="box">
+      <div class="row"><h3>Water today</h3><span class="num small muted" id="waterCount">0 / 10 glasses</span></div>
+      <div class="water" id="water" aria-label="Glasses of water, 250 ml each"></div>
+      <p class="small muted">10 glasses × 250 ml ≈ 2.5 L. Drink warm or room-temperature water. Cold water can make a blocked nose feel worse.</p>
+    </div>
+  </section>
+
+  <!-- WEEK -->
+  <section class="panel" id="tab-week" role="tabpanel" hidden>
+    <div class="row">
+      <h2>7-day menu</h2>
+      <div class="toggle" role="group" aria-label="Food preference">
+        <button data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+        <button data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+      </div>
+    </div>
+    <div class="days" id="days"></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Time</th><th>Meal</th><th>What to eat</th><th>≈ kcal</th></tr></thead>
+      <tbody id="weekBody"></tbody>
+    </table></div>
+    <p class="small muted">Portions use a normal 200 ml katori (cup). Cook with 3–4 tsp oil in total for the whole day. Roti/phulka means one without ghee. You can swap meals between days.</p>
+  </section>
+
+  <!-- EXERCISE -->
+  <section class="panel" id="tab-exercise" role="tabpanel" hidden>
+    <div>
+      <h2>Exercise plan</h2>
+      <p class="muted">A beginner plan that's easy on your knees: no jumping and no gym needed. Do it at 5:30 pm, at least 1½ hours after your snack. Start easy and build up over 8 weeks.</p>
+    </div>
+    <div class="days" id="exDays"></div>
+    <div class="box" id="exDay"></div>
+
+    <div class="box">
+      <h3>Strength A · Mon &amp; Fri · about 15 min</h3>
+      <div class="table-wrap" style="border:0"><table>
+        <thead><tr><th>Exercise</th><th>Sets × reps</th><th>How to do it</th></tr></thead>
+        <tbody id="strA"></tbody>
+      </table></div>
+    </div>
+    <div class="box">
+      <h3>Strength B · Wed · about 15 min</h3>
+      <div class="table-wrap" style="border:0"><table>
+        <thead><tr><th>Exercise</th><th>Sets × reps</th><th>How to do it</th></tr></thead>
+        <tbody id="strB"></tbody>
+      </table></div>
+      <p class="small muted">Rest 45–60 seconds between sets. Breathe out when you push or stand up, and never hold your breath.</p>
+    </div>
+
+    <div class="box">
+      <h3>Build up week by week</h3>
+      <div class="table-wrap" style="border:0"><table>
+        <thead><tr><th>Weeks</th><th>Walking</th><th>Strength</th><th>Daily steps</th></tr></thead>
+        <tbody>
+          <tr><td>1–2</td><td>20–25 min at a comfortable pace</td><td>1 set of each</td><td class="num">5,000–6,000</td></tr>
+          <tr><td>3–4</td><td>30–35 min, brisk (you can talk but not sing)</td><td>2 sets of each</td><td class="num">6,000–7,000</td></tr>
+          <tr><td>5–8</td><td>40–45 min. Add intervals: 1 min fast, 2 min normal</td><td>2–3 sets</td><td class="num">7,000–8,000</td></tr>
+          <tr><td>9+</td><td>45 min, or try cycling or swimming</td><td>3 sets, harder versions (squats without the chair, knee push-ups on the floor)</td><td class="num">8,000–10,000</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="cols">
+      <div class="box"><h3>During college hours</h3><ul>
+        <li>After every 45–60 minutes of sitting, stand, stretch and walk for 2 minutes</li>
+        <li>Take the stairs, not the lift</li>
+        <li>Walk while you talk on the phone</li>
+        <li>Walk for 10 minutes after lunch</li>
+      </ul></div>
+      <div class="box"><h3>Breathing for your sinus · 5 min</h3><ul>
+        <li><b>Bhramari (humming bee):</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds. Humming may help air move in the sinuses.</li>
+        <li><b>Anulom vilom:</b> slow alternate-nostril breathing for 3 minutes. Skip it if one side is fully blocked.</li>
+        <li>Do these after steam, never forcefully</li>
+      </ul></div>
+    </div>
+
+    <div class="alert"><h3>Stay safe</h3><ul>
+      <li>Always warm up for 5 minutes (marching, arm circles) and cool down with 5 minutes of stretching</li>
+      <li>Stop and tell an adult or doctor if you feel chest pain, dizziness, severe breathlessness, or wheezing</li>
+      <li>With a fever or body aches, rest. With only a mild blocked nose, a light walk is fine.</li>
+      <li>On cold or dusty days, walk indoors or cover your nose and mouth with a scarf or mask</li>
+      <li>Wear proper sports shoes and sip water. During your periods, light walking and stretching are fine.</li>
+      <li>Exercise does not mean you should eat extra. Keep to your meal plan.</li>
+    </ul></div>
+  </section>
+
+  <!-- SINUS -->
+  <section class="panel" id="tab-sinus" role="tabpanel" hidden>
+    <h2>Sinus care through food and habits</h2>
+    <p class="muted">These habits can ease a blocked nose and sneezing. They do not cure sinusitis or allergies, so see a doctor (ENT) if symptoms keep coming back.</p>
+    <div class="cols">
+      <div class="box good"><h3>Helps</h3><ul>
+        <li>Warm water, clear soups and rasam through the day</li>
+        <li>Ginger–tulsi tea without sugar, 1–2 cups</li>
+        <li>Turmeric, garlic, black pepper and ginger in your cooking</li>
+        <li>Vitamin C fruits every day: amla, guava, orange, lemon</li>
+        <li>Steam inhalation for 5–10 minutes, morning and night (keep the water away from your face to avoid burns)</li>
+        <li>Sleeping with your head slightly raised on an extra pillow</li>
+        <li>8–9 hours of sleep. A tired body gets more colds.</li>
+      </ul></div>
+      <div class="box limit"><h3>Avoid or limit</h3><ul>
+        <li>Ice-cold water, ice cream, cold drinks, chilled juices</li>
+        <li>Fried snacks, bakery items, sweets with added sugar</li>
+        <li>Eating curd or buttermilk straight from the fridge or late at night. Have them at room temperature at lunch.</li>
+        <li>Dust, perfume, incense smoke and cold wind on two-wheelers. Cover your nose with a scarf or mask.</li>
+      </ul></div>
+    </div>
+    <div class="box"><h3>About milk and dairy</h3>
+      <p>Research does not show that milk causes sinus problems. Some people do feel more blocked after cold milk. If you notice that, have dairy warm, earlier in the day, or as curd at lunch. Don't cut it out completely: at your age you need about 1,000–1,300 mg of calcium a day. Ragi, sesame (til), green leafy vegetables and paneer also give calcium.</p>
+    </div>
+    <div class="box"><h3>Frequent sneezing may be an allergy</h3>
+      <p>Sneezing a lot and a blocked nose in the morning are often signs of allergic rhinitis, triggered by dust mites, pollen or cold air. A doctor can confirm this and suggest a safe treatment. A saline nasal rinse helps many people, but ask your doctor how to use it correctly. Don't take allergy or decongestant tablets without advice.</p>
+    </div>
+    <div class="alert"><h3>See a doctor soon if you have</h3><ul>
+      <li>Fever, or pain and swelling around the eyes, cheeks or forehead</li>
+      <li>Symptoms lasting more than 10 days, or getting better and then worse again</li>
+      <li>Thick green or yellow mucus along with fever</li>
+      <li>Any change in your vision, or a severe headache</li>
+    </ul></div>
+  </section>
+
+  <!-- GUIDE -->
+  <section class="panel" id="tab-guide" role="tabpanel" hidden>
+    <h2>How to build every plate</h2>
+    <div class="box">
+      <h3>The half-quarter-quarter plate</h3>
+      <svg viewBox="0 0 320 130" class="chart" role="img" aria-label="Plate: half vegetables, one quarter protein, one quarter grains">
+        <circle cx="65" cy="65" r="58" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>
+        <path d="M65 65 L65 7 A58 58 0 0 1 65 123 Z" fill="var(--leaf)" opacity=".8"/>
+        <path d="M65 65 L65 123 A58 58 0 0 1 7 65 Z" fill="var(--turmeric)" opacity=".85"/>
+        <path d="M65 65 L7 65 A58 58 0 0 1 65 7 Z" fill="var(--chili)" opacity=".75"/>
+        <rect x="150" y="22" width="12" height="12" fill="var(--leaf)" opacity=".8"/><text x="170" y="32">½ vegetables + salad</text>
+        <rect x="150" y="58" width="12" height="12" fill="var(--chili)" opacity=".75"/><text x="170" y="68">¼ protein: dal, paneer,</text><text x="170" y="82">egg, chicken, fish</text>
+        <rect x="150" y="98" width="12" height="12" fill="var(--turmeric)" opacity=".85"/><text x="170" y="108">¼ roti or rice</text>
+      </svg>
+    </div>
+    <div class="cols">
+      <div class="box good"><h3>Eat more</h3><ul>
+        <li>Dal, chana, rajma, moong sprouts, besan</li>
+        <li>Eggs, chicken (no skin), fish: grilled, curry or soup</li>
+        <li>Paneer and curd in small portions</li>
+        <li>Jowar, ragi, bajra, oats, brown rice, daliya</li>
+        <li>All vegetables, especially leafy greens</li>
+        <li>Whole fruits (not juice): guava, orange, apple, papaya</li>
+        <li>Roasted chana, makhana, a small handful of peanuts</li>
+      </ul></div>
+      <div class="box limit"><h3>Limit to once a week or less</h3><ul>
+        <li>Samosa, pakora, chips, puffs, fried chicken</li>
+        <li>Maggi, pizza, burgers, canteen fried rice</li>
+        <li>Soft drinks, packaged juice, milkshakes, sugary chai</li>
+        <li>Biscuits, cakes, mithai, chocolates</li>
+        <li>Large portions of white rice, maida parotta, naan</li>
+      </ul></div>
+    </div>
+    <div class="box"><h3>Your daily nutrition targets</h3>
+      <div class="table-wrap" style="border:0"><table>
+        <tbody>
+          <tr><td>Energy</td><td>about 1,450 kcal (never below 1,300)</td></tr>
+          <tr><td>Protein</td><td>55–65 g, in every meal</td></tr>
+          <tr><td>Fibre</td><td>25 g or more, from vegetables, fruit, dal and whole grains</td></tr>
+          <tr><td>Water</td><td>2.5 litres, warm or at room temperature</td></tr>
+          <tr><td>Calcium</td><td>1,000–1,300 mg: curd, paneer, ragi, til, greens</td></tr>
+          <tr><td>Iron</td><td>15 mg: greens, dal, jaggery-free dates, eggs, meat, with lemon</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="tab-progress" role="tabpanel" hidden>
+    <h2>Progress</h2>
+    <p class="muted">Weigh yourself once a week, on the same morning, before breakfast. Day-to-day changes are mostly water, so don't worry about them.</p>
+    <form class="log" id="logForm">
+      <label for="logDate">Date<input type="date" id="logDate" required></label>
+      <label for="logKg">Weight (kg)<input type="number" id="logKg" min="30" max="200" step="0.1" required placeholder="74.6"></label>
+      <button class="btn" type="submit">Add entry</button>
+    </form>
+    <p class="small" id="logMsg" role="status"></p>
+    <div class="box">
+      <div class="row"><h3>Weight trend</h3><span class="small muted" id="trendNote"></span></div>
+      <div id="chartWrap"></div>
+    </div>
+    <div class="box">
+      <h3>Milestones</h3>
+      <div class="table-wrap" style="border:0"><table>
+        <thead><tr><th>Goal</th><th>Weight</th><th>Realistic time</th></tr></thead>
+        <tbody>
+          <tr><td>First 5%</td><td>5% below your starting weight</td><td>2–4 months</td></tr>
+          <tr><td>First 10%</td><td>10% below your starting weight</td><td>5–8 months</td></tr>
+          <tr><td>Healthy BMI</td><td>BMI 18.5–24.9 (BMI = kg ÷ height in m²)</td><td>Long-term. Your doctor can set the right target as you grow.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="row"><span class="small muted" id="entryCount"></span><button class="btn ghost" type="button" id="clearLog">Clear all entries</button></div>
+    <p class="small" id="clearConfirm" hidden>Delete every weight entry? <button class="btn ghost" type="button" id="clearYes">Yes, delete</button> <button class="btn ghost" type="button" id="clearNo">Keep them</button></p>
+  </section>
+
+  <footer>This plan is general guidance, not medical advice. Your ticks, water and weight entries are saved only in this browser on this device.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- safe storage (fails silently in private mode / previews) ----------
+  const store = {
+    get(key, fallback) {
+      try { const v = localStorage.getItem(key); return v === null ? fallback : JSON.parse(v); } catch (e) { return fallback; }
+    },
+    set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* ignore */ } }
+  };
+
+  const todayKey = () => new Date().toISOString().slice(0, 10);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  // ---------- meal data: [veg, non-veg] per slot ----------
+  // Slots: B breakfast, M mid-morning, L lunch, S evening snack, D dinner
+  const WEEK = [
+    { day: "Mon",
+      B: ["2 idli + 1 cup sambar + 1 tbsp coconut chutney", "2 idli + 1 cup sambar + 1 boiled egg"],
+      M: ["1 guava", "1 guava"],
+      L: ["2 phulka + 1 cup dal + 1 cup bhindi sabzi + salad", "2 phulka + 1 cup home-style chicken curry (80 g, less oil) + salad"],
+      S: ["30 g roasted chana + ginger–tulsi tea (no sugar)", "30 g roasted chana + ginger–tulsi tea (no sugar)"],
+      D: ["1 cup vegetable daliya + 50 g paneer bhurji", "100 g grilled or tawa fish + 1 cup sautéed vegetables + 1 phulka"] },
+    { day: "Tue",
+      B: ["1 cup vegetable poha + 1 tsp peanuts + lemon", "2-egg vegetable omelette + 1 slice multigrain toast"],
+      M: ["1 orange", "1 orange"],
+      L: ["1 cup rice + 1 cup rajma + cucumber salad", "1 cup rice + egg curry (2 eggs) + cucumber salad"],
+      S: ["1 cup moong sprouts chaat with lemon", "1 cup moong sprouts chaat with lemon"],
+      D: ["2 moong dal chilla + mint chutney + 1 cup vegetables", "1 bowl clear chicken soup + 1 phulka + 1 cup vegetables"] },
+    { day: "Wed",
+      B: ["1 cup vegetable upma + 1 cup sambar", "2-egg bhurji + 1 phulka"],
+      M: ["1 apple", "1 apple"],
+      L: ["2 jowar roti + 1 cup chana masala + salad", "2 jowar roti + 1 cup fish curry + salad"],
+      S: ["1 cup roasted makhana + tulsi tea", "1 cup roasted makhana + tulsi tea"],
+      D: ["1 bowl vegetable soup + 75 g paneer tikka", "1 bowl vegetable soup + 100 g grilled chicken"] },
+    { day: "Thu",
+      B: ["1 cup masala oats with vegetables", "1 cup masala oats + 1 boiled egg"],
+      M: ["1 cup papaya", "1 cup papaya"],
+      L: ["1 cup rice + sambar + 1 cup beans poriyal + ½ cup curd (room temp)", "1 cup rice + 1 cup chicken rasam/curry + 1 cup poriyal"],
+      S: ["20 g roasted peanuts + green tea", "20 g roasted peanuts + green tea"],
+      D: ["2 ragi dosa + 1 cup sambar", "2 ragi dosa + 1 egg curry (1 egg)"] },
+    { day: "Fri",
+      B: ["2 besan chilla with onion, tomato, spinach", "2 besan chilla + 1 boiled egg"],
+      M: ["½ cup pomegranate", "½ cup pomegranate"],
+      L: ["1 cup vegetable pulao + ½ cup raita + salad", "1 cup chicken pulao (lean pieces) + salad"],
+      S: ["1 cup sprouts or 30 g roasted chana + ginger tea", "1 cup sprouts or 30 g roasted chana + ginger tea"],
+      D: ["1 cup palak paneer + 1 phulka", "1 cup chicken or fish stir-fry with vegetables + 1 phulka"] },
+    { day: "Sat",
+      B: ["2 plain dosa (less oil) + 1 cup sambar", "2 plain dosa + 1 cup sambar + 1 boiled egg"],
+      M: ["1 orange", "1 orange"],
+      L: ["2 phulka + 1 cup mixed dal + 1 cup lauki sabzi", "2 phulka + egg curry (2 eggs) + 1 cup lauki sabzi"],
+      S: ["30 g roasted chana + ginger–tulsi tea", "30 g roasted chana + ginger–tulsi tea"],
+      D: ["1 cup moong dal khichdi with vegetables", "1 bowl clear chicken soup + ¾ cup khichdi"] },
+    { day: "Sun",
+      B: ["2 idli or 1 cup upma + sambar", "2 idli + sambar + 1 boiled egg"],
+      M: ["1 guava", "1 guava"],
+      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. chicken biryani, 1 cup) + raita + salad"],
+      S: ["1 fruit + ginger tea", "1 fruit + ginger tea"],
+      D: ["1 bowl vegetable soup + 2 besan chilla", "1 bowl vegetable soup + 100 g grilled fish or chicken"] }
+  ];
+
+  // Daily timeline (college day). kcal are approximate per slot.
+  const SLOTS = [
+    { t: "07:00", id: "wake",  title: "Wake up", habit: true, note: "1–2 glasses of warm water. Add lemon and a slice of ginger if you like." },
+    { t: "07:10", id: "steam", title: "Steam + stretch", habit: true, note: "5–10 minutes of steam inhalation, then 10 minutes of stretching or yoga." },
+    { t: "07:45", id: "B", title: "Breakfast", kcal: 350, note: "Never skip it. It keeps you from overeating at college." },
+    { t: "10:45", id: "M", title: "Mid-morning fruit", kcal: 80, note: "Carry it from home instead of buying canteen snacks." },
+    { t: "13:00", id: "L", title: "Lunch", kcal: 450, note: "Eat slowly, for 15–20 minutes. Half your plate should be vegetables." },
+    { t: "16:30", id: "S", title: "Evening snack", kcal: 150, note: "Warm tea without sugar. Skip biscuits and fried snacks." },
+    { t: "17:30", id: "walk", title: "Exercise", habit: true, note: "See the Exercise tab." },
+    { t: "19:30", id: "D", title: "Dinner", kcal: 350, note: "Light and warm. Finish at least 2–3 hours before bed." },
+    { t: "21:15", id: "night", title: "Wind down", kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat haldi milk or turmeric–ginger water. Steam again if your nose is blocked." },
+    { t: "22:00", id: "sleep", title: "Sleep", habit: true, note: "Lights off by 10 pm for 9 hours of sleep until 7 am. Put your phone away 30 minutes before. Raise your head with an extra pillow." }
+  ];
+
+  // ---------- exercise data ----------
+  const EX_WEEK = [
+    { day: "Mon", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up: marching, arm circles", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
+    { day: "Tue", title: "Long walk + stretch", mins: 50, steps: ["5 min warm-up", "35–40 min brisk walk", "10 min full-body stretching"] },
+    { day: "Wed", title: "Strength B + walk", mins: 45, steps: ["5 min warm-up", "Strength B (15 min)", "20 min walk", "5 min stretching"] },
+    { day: "Thu", title: "Indoor cardio", mins: 40, steps: ["5 min warm-up", "20 min low-impact cardio: Bollywood dance video or fast marching (no jumping)", "10 min walk or stair climbing", "5 min stretching"] },
+    { day: "Fri", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
+    { day: "Sat", title: "Fun activity", mins: 45, steps: ["45 min of something you enjoy: badminton, cycling, dancing, or a long walk with friends"] },
+    { day: "Sun", title: "Rest + gentle yoga", mins: 20, steps: ["Rest day. Your muscles recover today.", "Optional 15 min gentle yoga: cat–cow, child's pose, cobra, butterfly", "5 min breathing: bhramari and anulom vilom"] }
+  ];
+  const STRENGTH_A = [
+    ["Chair squat", "2 × 10", "Stand in front of a chair, sit back until you just touch it, then stand up. Keep your knees behind your toes."],
+    ["Wall push-up", "2 × 10", "Hands on the wall at shoulder height. Bend your elbows to bring your chest towards the wall, then push back."],
+    ["Glute bridge", "2 × 12", "Lie on your back with knees bent. Lift your hips, squeeze for 2 seconds, then lower."],
+    ["Standing knee raise", "2 × 20", "March in place, lifting each knee to hip height. Hold a wall if you need to."],
+    ["Knee plank", "2 × 20 sec", "On your forearms and knees, keep your body in a straight line from head to knees."]
+  ];
+  const STRENGTH_B = [
+    ["Step-up", "2 × 10 each leg", "Step up onto a stair, then down, holding the railing."],
+    ["Incline push-up", "2 × 8", "Hands on a sturdy table or bed edge, body straight. Lower your chest and push back."],
+    ["Supported reverse lunge", "2 × 8 each leg", "Hold a chair. Step one leg back and bend both knees a little, then return."],
+    ["Side-lying leg raise", "2 × 12 each side", "Lie on your side and lift your top leg slowly, then lower it."],
+    ["Bird-dog", "2 × 8 each side", "On your hands and knees, stretch out your opposite arm and leg. Hold for 2 seconds."]
+  ];
+
+  // ---------- state ----------
+  let pref = store.get("pref", "veg");
+  let tab = store.get("tab", "today");
+  const jsDay = new Date().getDay();                // 0 = Sun
+  const todayIdx = (jsDay + 6) % 7;                 // 0 = Mon
+  let weekIdx = todayIdx;
+  let exIdx = todayIdx;
+
+  function renderExercise() {
+    document.getElementById("exDays").innerHTML = EX_WEEK.map((d, i) =>
+      `<button type="button" data-i="${i}" aria-pressed="${i === exIdx}">${d.day}${i === todayIdx ? " ·" : ""}</button>`).join("");
+    document.querySelectorAll("#exDays button").forEach(b => b.addEventListener("click", () => { exIdx = +b.dataset.i; renderExercise(); }));
+    const d = EX_WEEK[exIdx];
+    document.getElementById("exDay").innerHTML =
+      `<div class="row"><h3>${esc(d.day)} · ${esc(d.title)}</h3><span class="num small muted">≈ ${d.mins} min · 5:30 pm</span></div>
+       <ul>${d.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ul>`;
+    const rows = list => list.map(r => `<tr><td style="font-family:var(--font-body);color:var(--ink);font-weight:600">${esc(r[0])}</td><td class="num" style="white-space:nowrap">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+    document.getElementById("strA").innerHTML = rows(STRENGTH_A);
+    document.getElementById("strB").innerHTML = rows(STRENGTH_B);
+  }
+  const prefIdx = () => (pref === "nv" ? 1 : 0);
+
+  // ---------- tabs ----------
+  const tabButtons = document.querySelectorAll("nav.tabs button");
+  function showTab(name) {
+    tab = name; store.set("tab", name);
+    tabButtons.forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === name)));
+    document.querySelectorAll("[role=tabpanel]").forEach(p => { p.hidden = p.id !== "tab-" + name; });
+    if (name === "progress") renderChart();
+  }
+  tabButtons.forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+
+  // ---------- veg / non-veg toggle ----------
+  function setPref(p) {
+    pref = p; store.set("pref", p);
+    document.querySelectorAll("[data-pref]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.pref === p)));
+    renderToday(); renderWeek();
+  }
+  document.querySelectorAll("[data-pref]").forEach(b => b.addEventListener("click", () => setPref(b.dataset.pref)));
+
+  // ---------- today ----------
+  function getChecks() { return store.get("checks-" + todayKey(), {}); }
+  function renderToday() {
+    const plan = WEEK[todayIdx];
+    const checks = getChecks();
+    const markCls = pref === "nv" ? "nv" : "veg";
+    document.getElementById("todayTitle").textContent = "Today · " + plan.day;
+    document.getElementById("todaySub").textContent = "About 1,430 kcal across 5 meals. Tick each item as you finish it.";
+    const ol = document.getElementById("timeline");
+    ol.innerHTML = SLOTS.map(s => {
+      const food = plan[s.id] ? plan[s.id][prefIdx()] : null;
+      if (s.id === "walk") {
+        const ex = EX_WEEK[todayIdx];
+        s = Object.assign({}, s, { title: "Exercise · " + ex.title, note: ex.steps.join(" · ") + ". Full details are in the Exercise tab." });
+      }
+      const done = !!checks[s.id];
+      return `<li class="slot${s.habit ? " habit" : ""}${done ? " done" : ""}">
+        <time>${s.t}</time>
+        <div class="body">
+          <h3>${esc(s.title)}</h3>
+          ${food ? `<div class="food"><span class="mark ${markCls}"></span><span>${esc(food)}</span></div>` : ""}
+          <p class="small muted">${esc(s.note)}</p>
+        </div>
+        <div class="slot-right">
+          <input type="checkbox" class="check" id="chk-${s.id}" data-id="${s.id}" ${done ? "checked" : ""} aria-label="Mark ${esc(s.title)} done">
+          ${s.kcal ? `<span class="kcal">${s.kcal} kcal</span>` : ""}
+        </div>
+      </li>`;
+    }).join("");
+    ol.querySelectorAll(".check").forEach(c => c.addEventListener("change", () => {
+      const ch = getChecks(); ch[c.dataset.id] = c.checked; store.set("checks-" + todayKey(), ch);
+      c.closest(".slot").classList.toggle("done", c.checked); updateDone();
+    }));
+    updateDone(); renderWater();
+  }
+  function updateDone() {
+    const ch = getChecks();
+    const n = SLOTS.filter(s => ch[s.id]).length;
+    document.getElementById("doneCount").textContent = n + " / " + SLOTS.length;
+    document.getElementById("doneBar").style.width = (n / SLOTS.length * 100) + "%";
+  }
+  function renderWater() {
+    const key = "water-" + todayKey();
+    const count = store.get(key, 0);
+    const wrap = document.getElementById("water");
+    wrap.innerHTML = Array.from({ length: 10 }, (_, i) =>
+      `<button type="button" id="w${i}" aria-pressed="${i < count}" aria-label="Glass ${i + 1}"></button>`).join("");
+    document.getElementById("waterCount").textContent = count + " / 10 glasses";
+    wrap.querySelectorAll("button").forEach((b, i) => b.addEventListener("click", () => {
+      const next = (i + 1 === store.get(key, 0)) ? i : i + 1; // tap the last filled glass to undo it
+      store.set(key, next); renderWater();
+    }));
+  }
+
+  // ---------- week ----------
+  function renderWeek() {
+    document.getElementById("days").innerHTML = WEEK.map((d, i) =>
+      `<button type="button" data-i="${i}" aria-pressed="${i === weekIdx}">${d.day}${i === todayIdx ? " ·" : ""}</button>`).join("");
+    document.querySelectorAll("#days button").forEach(b => b.addEventListener("click", () => { weekIdx = +b.dataset.i; renderWeek(); }));
+    const d = WEEK[weekIdx];
+    const markCls = pref === "nv" ? "nv" : "veg";
+    document.getElementById("weekBody").innerHTML = SLOTS.filter(s => d[s.id]).map(s =>
+      `<tr><td>${s.t}</td><td>${esc(s.title)}</td><td><span style="display:flex;gap:8px;align-items:flex-start"><span class="mark ${markCls}" style="margin-top:4px"></span><span>${esc(d[s.id][prefIdx()])}</span></span></td><td class="num">${s.kcal}</td></tr>`
+    ).join("") + `<tr><td>21:15</td><td>Optional</td><td>½ cup warm haldi milk or turmeric–ginger water</td><td class="num">50</td></tr>`;
+  }
+
+  // ---------- progress ----------
+  function getLog() {
+    const log = store.get("weights", []);
+    return Array.isArray(log) ? log.filter(e => e && typeof e.kg === "number" && /^\d{4}-\d{2}-\d{2}$/.test(e.date)) : [];
+  }
+  function updateStats() {
+    const log = getLog();
+    document.getElementById("entryCount").textContent = log.length + (log.length === 1 ? " entry saved" : " entries saved");
+  }
+  function renderChart() {
+    const log = getLog();
+    const wrap = document.getElementById("chartWrap");
+    const note = document.getElementById("trendNote");
+    const isSample = log.length < 2;
+    const pts = isSample
+      ? [ { date: "Week 1", kg: 68 }, { date: "Week 2", kg: 67.6 }, { date: "Week 3", kg: 67.4 }, { date: "Week 4", kg: 66.9 }, { date: "Week 5", kg: 66.6 } ]
+      : log.slice(-12);
+    note.textContent = isSample ? "Example trend · add 2+ entries to see yours"
+      : ((pts[pts.length - 1].kg - pts[0].kg) <= 0 ? "Down " : "Up ") + Math.abs(pts[pts.length - 1].kg - pts[0].kg).toFixed(1) + " kg";
+    const W = 640, H = 220, L = 44, R = 16, T = 14, B = 30;
+    const kgs = pts.map(p => p.kg);
+    let lo = Math.floor(Math.min(...kgs) - 0.5), hi = Math.ceil(Math.max(...kgs) + 0.5);
+    if (hi - lo < 2) hi = lo + 2;
+    const x = i => L + (pts.length === 1 ? 0 : i * (W - L - R) / (pts.length - 1));
+    const y = v => T + (hi - v) * (H - T - B) / (hi - lo);
+    const step = Math.max(1, Math.round((hi - lo) / 4));
+    let grid = "";
+    for (let v = lo; v <= hi; v += step) {
+      grid += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+    }
+    const line = pts.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(p.kg).toFixed(1)}`).join(" ");
+    const area = line + ` L${x(pts.length - 1)} ${H - B} L${x(0)} ${H - B} Z`;
+    const labelEvery = Math.ceil(pts.length / 6);
+    const xl = pts.map((p, i) => (i % labelEvery === 0 || i === pts.length - 1)
+      ? `<text x="${x(i)}" y="${H - 10}" text-anchor="middle">${esc(isSample ? p.date : p.date.slice(5))}</text>` : "").join("");
+    const last = pts[pts.length - 1];
+    wrap.innerHTML = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart">
+      ${grid}
+      <path d="${area}" fill="var(--leaf)" opacity="${isSample ? 0.06 : 0.12}"/>
+      <path d="${line}" fill="none" stroke="var(--leaf)" stroke-width="2.5" ${isSample ? 'stroke-dasharray="6 5"' : ""}/>
+      <circle cx="${x(pts.length - 1)}" cy="${y(last.kg)}" r="5" fill="var(--leaf)"/>
+      <text x="${x(pts.length - 1) - 8}" y="${y(last.kg) - 10}" text-anchor="end" style="fill:var(--ink)">${last.kg.toFixed(1)} kg</text>
+      ${xl}
+    </svg>`;
+    updateStats();
+  }
+  const form = document.getElementById("logForm");
+  document.getElementById("logDate").value = todayKey();
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const date = document.getElementById("logDate").value;
+    const kg = parseFloat(document.getElementById("logKg").value);
+    const msg = document.getElementById("logMsg");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !(kg >= 30 && kg <= 200)) {
+      msg.textContent = "Enter a date and a weight between 30 and 200 kg."; return;
+    }
+    const log = getLog().filter(en => en.date !== date);
+    log.push({ date, kg: Math.round(kg * 10) / 10 });
+    log.sort((a, b) => a.date.localeCompare(b.date));
+    store.set("weights", log);
+    msg.textContent = "Saved " + kg.toFixed(1) + " kg for " + date + ".";
+    document.getElementById("logKg").value = "";
+    renderChart();
+  });
+  const clearConfirm = document.getElementById("clearConfirm");
+  document.getElementById("clearLog").addEventListener("click", () => { clearConfirm.hidden = false; });
+  document.getElementById("clearNo").addEventListener("click", () => { clearConfirm.hidden = true; });
+  document.getElementById("clearYes").addEventListener("click", () => {
+    store.set("weights", []); clearConfirm.hidden = true;
+    document.getElementById("logMsg").textContent = "All entries deleted."; renderChart();
+  });
+
+  // ---------- boot ----------
+  setPref(pref === "nv" ? "nv" : "veg");
+  renderExercise();
+  showTab(["today", "week", "exercise", "sinus", "guide", "progress"].includes(tab) ? tab : "today");
+  renderChart();
+})();
+</script>
+</body>
+</html>
