@@ -1,10 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="A sinus-friendly Indian diet, exercise and habit planner for students.">
 <meta name="theme-color" id="themeColor" content="#F3F6F1">
+<!-- Keep the app in English: stop Chrome from auto-translating it -->
+<meta name="google" content="notranslate">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Thali Planner">
@@ -248,6 +250,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 .hero h1 { font-size: 1.9rem; }
 .next { display: flex; gap: 14px; align-items: flex-start; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .16); border-radius: 18px; padding: 14px; }
 .next .ic { width: 44px; height: 44px; border-radius: 14px; background: rgba(255, 255, 255, .18); display: grid; place-items: center; flex: 0 0 auto; }
+.next .next-img { width: 72px; height: 72px; border-radius: 16px; object-fit: cover; flex: 0 0 auto; border: 2px solid rgba(255, 255, 255, .25); }
 .next .meta { font-family: var(--font-mono); font-size: .78rem; opacity: .85; }
 .next strong { display: block; font-family: var(--font-display); font-size: 1.15rem; margin: 2px 0; }
 .next p { opacity: .92; font-size: .92rem; }
@@ -263,7 +266,9 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 .ring-fg { transition: stroke-dasharray .4s ease; }
 
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.tl { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; transition: border-color .2s, box-shadow .2s, opacity .2s; }
+.thumb { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; display: block; }
+.tl .ic { width: 56px !important; height: 56px !important; }
+.tl { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; transition: border-color .2s, box-shadow .2s, opacity .2s; }
 .tl .ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary-strong); }
 .tl.habit .ic { background: var(--accent-soft); color: var(--accent-strong); }
 .tl.now { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
@@ -285,14 +290,19 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 
 /* ---------- meals ---------- */
 .meals { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.meal { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.meal { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 10px; align-content: start; overflow: hidden; }
+.meal-img { width: calc(100% + 32px); max-width: none; margin: -16px -16px 2px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 .meal-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .meal-top .when { display: flex; gap: 8px; align-items: center; color: var(--primary-strong); font-weight: 700; font-size: .85rem; }
 .total { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--primary-soft); color: var(--primary-strong); border-radius: 16px; padding: 14px 16px; font-weight: 600; }
 .total b { font-family: var(--font-mono); font-size: 1.1rem; }
 
 /* ---------- workout ---------- */
-.wo-hero { border-radius: 26px; padding: 22px; background: linear-gradient(140deg, var(--wo-a), var(--wo-b)); color: var(--wo-ink); display: grid; gap: 14px; }
+.wo-hero { border-radius: 26px; padding: 22px; background: linear-gradient(140deg, var(--wo-a), var(--wo-b)); color: var(--wo-ink); display: grid; gap: 18px; align-items: center; }
+.wo-main { display: grid; gap: 14px; min-width: 0; }
+.wo-img { width: 100%; max-width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 18px; order: -1; }
+@media (min-width: 640px) { .wo-hero { grid-template-columns: minmax(0, 1fr) 240px; } .wo-img { order: 0; } }
+.banner { width: 100%; max-width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 22px; display: block; }
 .wo-hero .eyebrow { color: var(--wo-ink); opacity: .75; }
 .wo-hero h2 { font-size: 1.5rem; font-weight: 800; }
 .wo-stats { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -443,7 +453,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
         <div class="chips" id="mealDays" role="group" aria-label="Day"></div>
         <div class="meals" id="mealList"></div>
         <div class="total"><span>Total for the day</span><b>≈ 1,430 kcal</b></div>
-        <p class="small muted">Portions use a normal 200 ml katori (cup). Use 3–4 tsp of oil in total for the whole day. Roti and phulka mean without ghee. You can swap meals between days.</p>
+        <p class="small muted">Portions use a normal 200 ml cup or small bowl. Use 3–4 tsp of oil in total for the whole day. Make flatbreads without butter or ghee. You can swap meals between days.</p>
       </section>
 
       <!-- WORKOUT -->
@@ -489,8 +499,8 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
           <div class="card">
             <div class="card-title"><span class="bubble sky"><svg class="icon"><use href="#i-wind"/></svg></span><h3>Breathing for your sinus</h3></div>
             <ul class="list">
-              <li><span><b>Bhramari (humming bee):</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds</span></li>
-              <li><span><b>Anulom vilom:</b> slow alternate-nostril breathing for 3 minutes. Skip it if one side is fully blocked.</span></li>
+              <li><span><b>Humming breath:</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds</span></li>
+              <li><span><b>Alternate-nostril breathing:</b> breathe slowly through one nostril at a time for 3 minutes. Skip it if one side is fully blocked.</span></li>
               <li><span>Do these after steam, and never force your breath</span></li>
             </ul>
           </div>
@@ -519,15 +529,16 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
         </div>
 
         <div id="care-sinus" class="view" style="animation:none">
+          <img class="banner" src="images/steam.svg" alt="A bowl of steam with ginger, lemon and basil leaves" width="640" height="280">
           <p class="muted">These habits can ease a blocked nose and sneezing. They don't cure sinusitis or allergies, so see an ENT doctor if symptoms keep coming back.</p>
           <div class="grid-2">
             <div class="card">
               <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-check"/></svg></span><h3>Helps</h3></div>
               <ul class="list">
-                <li><span>Warm water, clear soups and rasam through the day</span></li>
-                <li><span>1–2 cups of ginger–tulsi tea without sugar</span></li>
+                <li><span>Warm water, clear soups and pepper soup through the day</span></li>
+                <li><span>1–2 cups of ginger basil tea without sugar</span></li>
                 <li><span>Turmeric, garlic, black pepper and ginger in your cooking</span></li>
-                <li><span>Vitamin C fruits every day: amla, guava, orange, lemon</span></li>
+                <li><span>Vitamin C fruits every day: Indian gooseberry, guava, orange, lemon</span></li>
                 <li><span>5–10 minutes of steam, morning and night. Keep your face a safe distance from the water.</span></li>
                 <li><span>Sleep with your head slightly raised, for 8–9 hours</span></li>
               </ul>
@@ -537,7 +548,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
               <ul class="list limit">
                 <li><span>Ice-cold water, ice cream, cold drinks, chilled juices</span></li>
                 <li><span>Fried snacks, bakery items, sugary sweets</span></li>
-                <li><span>Curd or buttermilk straight from the fridge, or late at night</span></li>
+                <li><span>Yogurt or buttermilk straight from the fridge, or late at night</span></li>
                 <li><span>Dust, perfume, incense smoke, and cold wind while riding</span></li>
               </ul>
             </div>
@@ -545,7 +556,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
           <div class="grid-2">
             <div class="card">
               <h3>About milk and dairy</h3>
-              <p class="small">Research does not show that milk causes sinus problems, but some people feel more blocked after cold milk. If you do, have dairy warm and earlier in the day. Don't cut it out completely, because teens need 1,000–1,300 mg of calcium a day. Ragi, sesame (til), greens and paneer also give calcium.</p>
+              <p class="small">Research does not show that milk causes sinus problems, but some people feel more blocked after cold milk. If you do, have dairy warm and earlier in the day. Don't cut it out completely, because teens need 1,000–1,300 mg of calcium a day. Finger millet, sesame seeds, leafy greens and cottage cheese also give calcium.</p>
             </div>
             <div class="card">
               <h3>Frequent sneezing may be an allergy</h3>
@@ -575,9 +586,9 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
                 <circle cx="65" cy="65" r="55" fill="none" stroke="var(--surface)" stroke-width="3"/>
               </svg>
               <ul class="legend">
-                <li><i style="background:var(--primary)"></i><span><b>½ vegetables and salad</b><br><span class="small muted">sabzi, greens, cucumber, carrot</span></span></li>
-                <li><i style="background:var(--chili)"></i><span><b>¼ protein</b><br><span class="small muted">dal, paneer, egg, chicken, fish</span></span></li>
-                <li><i style="background:var(--accent)"></i><span><b>¼ roti or rice</b><br><span class="small muted">jowar, ragi, brown rice, phulka</span></span></li>
+                <li><i style="background:var(--primary)"></i><span><b>½ vegetables and salad</b><br><span class="small muted">cooked vegetables, greens, cucumber, carrot</span></span></li>
+                <li><i style="background:var(--chili)"></i><span><b>¼ protein</b><br><span class="small muted">lentils, cottage cheese, egg, chicken, fish</span></span></li>
+                <li><i style="background:var(--accent)"></i><span><b>¼ flatbread or rice</b><br><span class="small muted">wheat, sorghum or millet flatbread, brown rice</span></span></li>
               </ul>
             </div>
           </div>
@@ -585,22 +596,22 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
             <div class="card">
               <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-leaf"/></svg></span><h3>Eat more</h3></div>
               <ul class="list">
-                <li><span>Dal, chana, rajma, moong sprouts, besan</span></li>
+                <li><span>Lentils, chickpeas, kidney beans, sprouts, chickpea flour</span></li>
                 <li><span>Eggs, and chicken without skin or fish, grilled or in curry</span></li>
-                <li><span>Small portions of paneer and curd</span></li>
-                <li><span>Jowar, ragi, bajra, oats, brown rice, daliya</span></li>
+                <li><span>Small portions of cottage cheese and yogurt</span></li>
+                <li><span>Sorghum, finger millet, pearl millet, oats, brown rice, broken wheat</span></li>
                 <li><span>Whole fruit, not juice</span></li>
-                <li><span>Roasted chana, makhana, a few peanuts</span></li>
+                <li><span>Roasted chickpeas, roasted fox nuts, a few peanuts</span></li>
               </ul>
             </div>
             <div class="card">
               <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-alert"/></svg></span><h3>Once a week or less</h3></div>
               <ul class="list limit">
-                <li><span>Samosa, pakora, chips, puffs, fried chicken</span></li>
+                <li><span>Deep-fried snacks, fritters, chips, puff pastries, fried chicken</span></li>
                 <li><span>Maggi, pizza, burgers, canteen fried rice</span></li>
                 <li><span>Soft drinks, packaged juice, sugary chai</span></li>
-                <li><span>Biscuits, cakes, mithai, chocolates</span></li>
-                <li><span>Big portions of white rice, parotta, naan</span></li>
+                <li><span>Biscuits, cakes, Indian sweets, chocolates</span></li>
+                <li><span>Big portions of white rice, layered flatbreads, white-flour breads</span></li>
               </ul>
             </div>
           </div>
@@ -612,7 +623,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
               <div><dt>Fibre</dt><dd>25 g or more</dd></div>
               <div><dt>Water</dt><dd>2.5 L, warm or at room temperature</dd></div>
               <div><dt>Calcium</dt><dd>1,000–1,300 mg</dd></div>
-              <div><dt>Iron</dt><dd>15 mg: greens, dal, eggs and meat, eaten with lemon</dd></div>
+              <div><dt>Iron</dt><dd>15 mg: leafy greens, lentils, eggs and meat, eaten with lemon</dd></div>
             </dl>
           </div>
         </div>
@@ -687,47 +698,47 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
   // Each meal slot: [vegetarian, non-vegetarian]
   const WEEK = [
     { day: "Mon",
-      B: ["2 idli + 1 cup sambar + 1 tbsp coconut chutney", "2 idli + 1 cup sambar + 1 boiled egg"],
+      B: ["2 steamed rice cakes (idli) + 1 cup lentil vegetable stew (sambar) + 1 tbsp coconut chutney", "2 steamed rice cakes (idli) + 1 cup lentil vegetable stew (sambar) + 1 boiled egg"],
       M: ["1 guava", "1 guava"],
-      L: ["2 phulka + 1 cup dal + 1 cup bhindi sabzi + salad", "2 phulka + 1 cup home-style chicken curry (80 g, less oil) + salad"],
-      S: ["30 g roasted chana + ginger–tulsi tea (no sugar)", "30 g roasted chana + ginger–tulsi tea (no sugar)"],
-      D: ["1 cup vegetable daliya + 50 g paneer bhurji", "100 g grilled or tawa fish + 1 cup sautéed vegetables + 1 phulka"] },
+      L: ["2 thin wheat flatbreads + 1 cup lentil curry + 1 cup okra stir-fry + salad", "2 thin wheat flatbreads + 1 cup home-style chicken curry (80 g, less oil) + salad"],
+      S: ["30 g roasted chickpeas + ginger basil tea (no sugar)", "30 g roasted chickpeas + ginger basil tea (no sugar)"],
+      D: ["1 cup vegetable broken-wheat porridge + 50 g scrambled cottage cheese", "100 g pan-grilled fish + 1 cup sautéed vegetables + 1 thin wheat flatbread"] },
     { day: "Tue",
-      B: ["1 cup vegetable poha + 1 tsp peanuts + lemon", "2-egg vegetable omelette + 1 slice multigrain toast"],
+      B: ["1 cup vegetable flattened rice (poha) + 1 tsp peanuts + lemon", "2-egg vegetable omelette + 1 slice multigrain toast"],
       M: ["1 orange", "1 orange"],
-      L: ["1 cup rice + 1 cup rajma + cucumber salad", "1 cup rice + egg curry (2 eggs) + cucumber salad"],
-      S: ["1 cup moong sprouts chaat with lemon", "1 cup moong sprouts chaat with lemon"],
-      D: ["2 moong dal chilla + mint chutney + 1 cup vegetables", "1 bowl clear chicken soup + 1 phulka + 1 cup vegetables"] },
+      L: ["1 cup rice + 1 cup kidney bean curry + cucumber salad", "1 cup rice + egg curry (2 eggs) + cucumber salad"],
+      S: ["1 cup sprouted green gram salad with lemon", "1 cup sprouted green gram salad with lemon"],
+      D: ["2 green gram lentil pancakes + mint chutney + 1 cup vegetables", "1 bowl clear chicken soup + 1 thin wheat flatbread + 1 cup vegetables"] },
     { day: "Wed",
-      B: ["1 cup vegetable upma + 1 cup sambar", "2-egg bhurji + 1 phulka"],
+      B: ["1 cup vegetable semolina porridge (upma) + 1 cup lentil vegetable stew", "Spiced scrambled eggs (2 eggs) + 1 thin wheat flatbread"],
       M: ["1 apple", "1 apple"],
-      L: ["2 jowar roti + 1 cup chana masala + salad", "2 jowar roti + 1 cup fish curry + salad"],
-      S: ["1 cup roasted makhana + tulsi tea", "1 cup roasted makhana + tulsi tea"],
-      D: ["1 bowl vegetable soup + 75 g paneer tikka", "1 bowl vegetable soup + 100 g grilled chicken"] },
+      L: ["2 sorghum flatbreads + 1 cup chickpea curry + salad", "2 sorghum flatbreads + 1 cup fish curry + salad"],
+      S: ["1 cup roasted fox nuts (makhana) + basil tea", "1 cup roasted fox nuts (makhana) + basil tea"],
+      D: ["1 bowl vegetable soup + 75 g grilled cottage cheese cubes", "1 bowl vegetable soup + 100 g grilled chicken"] },
     { day: "Thu",
-      B: ["1 cup masala oats with vegetables", "1 cup masala oats + 1 boiled egg"],
+      B: ["1 cup savoury spiced oats with vegetables", "1 cup savoury spiced oats + 1 boiled egg"],
       M: ["1 cup papaya", "1 cup papaya"],
-      L: ["1 cup rice + sambar + 1 cup beans poriyal + ½ cup curd (room temp)", "1 cup rice + 1 cup chicken rasam/curry + 1 cup poriyal"],
+      L: ["1 cup rice + lentil vegetable stew + 1 cup green beans stir-fry + ½ cup yogurt (room temperature)", "1 cup rice + 1 cup chicken curry + 1 cup green beans stir-fry"],
       S: ["20 g roasted peanuts + green tea", "20 g roasted peanuts + green tea"],
-      D: ["2 ragi dosa + 1 cup sambar", "2 ragi dosa + 1 egg curry (1 egg)"] },
+      D: ["2 finger millet crepes + 1 cup lentil vegetable stew", "2 finger millet crepes + egg curry (1 egg)"] },
     { day: "Fri",
-      B: ["2 besan chilla with onion, tomato, spinach", "2 besan chilla + 1 boiled egg"],
+      B: ["2 chickpea flour pancakes with onion, tomato and spinach", "2 chickpea flour pancakes + 1 boiled egg"],
       M: ["½ cup pomegranate", "½ cup pomegranate"],
-      L: ["1 cup vegetable pulao + ½ cup raita + salad", "1 cup chicken pulao (lean pieces) + salad"],
-      S: ["1 cup sprouts or 30 g roasted chana + ginger tea", "1 cup sprouts or 30 g roasted chana + ginger tea"],
-      D: ["1 cup palak paneer + 1 phulka", "1 cup chicken or fish stir-fry with vegetables + 1 phulka"] },
+      L: ["1 cup vegetable rice + ½ cup cucumber yogurt + salad", "1 cup chicken rice (lean pieces) + salad"],
+      S: ["1 cup sprouts or 30 g roasted chickpeas + ginger tea", "1 cup sprouts or 30 g roasted chickpeas + ginger tea"],
+      D: ["1 cup spinach with cottage cheese + 1 thin wheat flatbread", "1 cup chicken or fish stir-fry with vegetables + 1 thin wheat flatbread"] },
     { day: "Sat",
-      B: ["2 plain dosa (less oil) + 1 cup sambar", "2 plain dosa + 1 cup sambar + 1 boiled egg"],
+      B: ["2 plain rice and lentil crepes (dosa, less oil) + 1 cup lentil vegetable stew", "2 plain rice and lentil crepes (dosa) + 1 cup lentil vegetable stew + 1 boiled egg"],
       M: ["1 orange", "1 orange"],
-      L: ["2 phulka + 1 cup mixed dal + 1 cup lauki sabzi", "2 phulka + egg curry (2 eggs) + 1 cup lauki sabzi"],
-      S: ["30 g roasted chana + ginger–tulsi tea", "30 g roasted chana + ginger–tulsi tea"],
-      D: ["1 cup moong dal khichdi with vegetables", "1 bowl clear chicken soup + ¾ cup khichdi"] },
+      L: ["2 thin wheat flatbreads + 1 cup mixed lentil curry + 1 cup bottle gourd curry", "2 thin wheat flatbreads + egg curry (2 eggs) + 1 cup bottle gourd curry"],
+      S: ["30 g roasted chickpeas + ginger basil tea", "30 g roasted chickpeas + ginger basil tea"],
+      D: ["1 cup rice and lentil porridge with vegetables", "1 bowl clear chicken soup + ¾ cup rice and lentil porridge"] },
     { day: "Sun",
-      B: ["2 idli or 1 cup upma + sambar", "2 idli + sambar + 1 boiled egg"],
+      B: ["2 steamed rice cakes (idli) or 1 cup semolina porridge + lentil vegetable stew", "2 steamed rice cakes (idli) + lentil vegetable stew + 1 boiled egg"],
       M: ["1 guava", "1 guava"],
-      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. 1 cup chicken biryani) + raita + salad"],
+      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. 1 cup chicken rice) + yogurt dip + salad"],
       S: ["1 fruit + ginger tea", "1 fruit + ginger tea"],
-      D: ["1 bowl vegetable soup + 2 besan chilla", "1 bowl vegetable soup + 100 g grilled fish or chicken"] }
+      D: ["1 bowl vegetable soup + 2 chickpea flour pancakes", "1 bowl vegetable soup + 100 g grilled fish or chicken"] }
   ];
 
   const SLOTS = [
@@ -739,10 +750,14 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     { t: "16:30", id: "S",     icon: "cup",      title: "Evening snack",     kcal: 150, note: "Warm tea without sugar. Skip biscuits and fried snacks." },
     { t: "17:30", id: "walk",  icon: "activity", title: "Exercise",          habit: true, note: "See the Workout tab." },
     { t: "19:30", id: "D",     icon: "utensils", title: "Dinner",            kcal: 350, note: "Light and warm, and 2½ hours before bed." },
-    { t: "21:15", id: "night", icon: "moon",     title: "Wind down",         kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat haldi milk or turmeric–ginger water. Steam again if your nose is blocked." },
+    { t: "21:15", id: "night", icon: "moon",     title: "Wind down",         kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat turmeric milk or turmeric–ginger water. Steam again if your nose is blocked." },
     { t: "22:00", id: "sleep", icon: "moon",     title: "Sleep",             habit: true, note: "Lights off for 9 hours of sleep. Put your phone away 30 minutes before, and use an extra pillow." }
   ];
   const TOTAL_KCAL = SLOTS.reduce((a, s) => a + (s.kcal || 0), 0);
+
+  // Illustrations in /images for each slot
+  const IMG = { B: "breakfast", M: "fruit", L: "lunch", S: "snack", D: "dinner", night: "night", walk: "workout", steam: "steam" };
+  const imgTag = (id, cls, alt) => IMG[id] ? `<img class="${cls}" src="images/${IMG[id]}.svg" alt="${esc(alt || "")}" width="112" height="70" loading="lazy">` : "";
 
   const EX_WEEK = [
     { day: "Mon", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up: marching, arm circles", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
@@ -751,7 +766,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     { day: "Thu", title: "Indoor cardio", mins: 40, steps: ["5 min warm-up", "20 min dance video or fast marching, with no jumping", "10 min walk or stair climbing", "5 min stretching"] },
     { day: "Fri", title: "Walk + Strength A", mins: 45, steps: ["5 min warm-up", "25 min brisk walk", "Strength A (15 min)", "5 min stretching"] },
     { day: "Sat", title: "Fun activity", mins: 45, steps: ["45 min of something you enjoy: badminton, cycling, dancing, or a long walk with friends"] },
-    { day: "Sun", title: "Rest + gentle yoga", mins: 20, steps: ["Rest day. Your muscles recover today.", "Optional 15 min yoga: cat–cow, child's pose, cobra, butterfly", "5 min breathing: bhramari and anulom vilom"] }
+    { day: "Sun", title: "Rest + gentle yoga", mins: 20, steps: ["Rest day. Your muscles recover today.", "Optional 15 min yoga: cat–cow, child's pose, cobra, butterfly", "5 min breathing: humming breath and alternate-nostril breathing"] }
   ];
   const ROUTINES = {
     A: [
@@ -847,7 +862,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     const diff = toMin(s.t) - mins;
     const inTxt = diff >= 60 ? `in ${Math.floor(diff / 60)} h ${diff % 60} min` : `in ${diff} min`;
     const food = WEEK[todayIdx][s.id] ? WEEK[todayIdx][s.id][prefIdx()] : s.note;
-    $("nextUp").innerHTML = `<span class="ic">${icon(s.icon)}</span><div><span class="meta">Next up · ${fmt12(s.t)} · ${inTxt}</span><strong>${esc(s.title)}</strong><p>${esc(food)}</p></div>`;
+    $("nextUp").innerHTML = `${IMG[s.id] ? imgTag(s.id, "next-img", "") : `<span class="ic">${icon(s.icon)}</span>`}<div><span class="meta">Next up · ${fmt12(s.t)} · ${inTxt}</span><strong>${esc(s.title)}</strong><p>${esc(food)}</p></div>`;
   }
 
   function renderRings() {
@@ -873,7 +888,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
       const done = !!ch[s.id];
       const isNow = s.id === currentId && !done;
       return `<li class="tl${s.habit ? " habit" : ""}${done ? " done" : ""}${isNow ? " now" : ""}">
-        <span class="ic">${icon(s.icon)}</span>
+        ${IMG[s.id] ? imgTag(s.id, "thumb", "") : `<span class="ic">${icon(s.icon)}</span>`}
         <div class="tl-body">
           <div class="tl-top"><span class="time">${fmt12(s.t)}</span>${isNow ? `<span class="now-tag">Now</span>` : ""}${s.kcal ? `<span class="badge">${s.kcal} kcal</span>` : ""}</div>
           <h3>${esc(s.title)}</h3>
@@ -917,9 +932,10 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     $("mealDays").innerHTML = chipsHTML(mealDay, "data-mday");
     const d = WEEK[mealDay];
     const markCls = pref === "nv" ? "nv" : "veg";
-    const meals = SLOTS.filter(s => d[s.id]).map(s => ({ t: s.t, title: s.title, icon: s.icon, kcal: s.kcal, food: d[s.id][prefIdx()] }));
-    meals.push({ t: "21:15", title: "Optional at night", icon: "moon", kcal: 50, food: "½ cup warm haldi milk or turmeric–ginger water" });
+    const meals = SLOTS.filter(s => d[s.id]).map(s => ({ id: s.id, t: s.t, title: s.title, icon: s.icon, kcal: s.kcal, food: d[s.id][prefIdx()] }));
+    meals.push({ id: "night", t: "21:15", title: "Optional at night", icon: "moon", kcal: 50, food: "½ cup warm turmeric milk or turmeric–ginger water" });
     $("mealList").innerHTML = meals.map(m => `<article class="meal">
+      ${imgTag(m.id, "meal-img", m.title + " illustration")}
       <div class="meal-top"><span class="when">${icon(m.icon)}${fmt12(m.t)}</span><span class="badge">${m.kcal} kcal</span></div>
       <h3>${esc(m.title)}</h3>
       <div class="food"><span class="mark ${markCls}"></span><span>${esc(m.food)}</span></div>
@@ -935,9 +951,12 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     $("exDays").innerHTML = chipsHTML(exDay, "data-xday");
     const d = EX_WEEK[exDay];
     $("woHero").innerHTML = `
-      <div><span class="eyebrow">${exDay === todayIdx ? "Today's workout" : d.day + " workout"}</span><h2>${esc(d.title)}</h2></div>
-      <div class="wo-stats"><span>${icon("clock")}${d.mins} min</span><span>${icon("sun")}5:30 pm</span></div>
-      <ol class="wo-steps">${d.steps.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol>`;
+      <div class="wo-main">
+        <div><span class="eyebrow">${exDay === todayIdx ? "Today's workout" : d.day + " workout"}</span><h2>${esc(d.title)}</h2></div>
+        <div class="wo-stats"><span>${icon("clock")}${d.mins} min</span><span>${icon("sun")}5:30 pm</span></div>
+        <ol class="wo-steps">${d.steps.map(s => `<li><span>${esc(s)}</span></li>`).join("")}</ol>
+      </div>
+      <img class="wo-img" src="images/workout.svg" alt="Yoga mat, dumbbell and water bottle" width="320" height="200">`;
     document.querySelectorAll("[data-routine]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.routine === routine)));
     $("exList").innerHTML = ROUTINES[routine].map((r, i) => `<div class="ex">
       <span class="n">${i + 1}</span>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Ginger tea and a bowl of roasted chickpeas">
+  <rect width="320" height="200" fill="#FCEFD3"/>
+  <circle cx="300" cy="10" r="70" fill="#F8E2B4"/>
+  <ellipse cx="116" cy="164" rx="70" ry="14" fill="#FFFFFF" stroke="#E9D7B3" stroke-width="3"/>
+  <path d="M66 96h100v32c0 18-18 32-40 32h-20c-22 0-40-14-40-32z" fill="#FFFFFF" stroke="#E9D7B3" stroke-width="3"/>
+  <path d="M166 106c22 0 22 30 0 30" fill="none" stroke="#E9D7B3" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="116" cy="96" rx="50" ry="10" fill="#C98B4E" stroke="#E9D7B3" stroke-width="3"/>
+  <g fill="none" stroke="#D9A866" stroke-width="4" stroke-linecap="round" opacity=".75">
+    <path d="M96 80c-8-10 8-16 0-28"/><path d="M118 76c-8-10 8-16 0-28"/><path d="M140 80c-8-10 8-16 0-28"/>
+  </g>
+  <path d="M30 182c4-8 14-8 18-2 6-4 14 0 12 8-6 4-26 4-30-6z" fill="#E2B878"/>
+  <g fill="#D29A55">
+    <circle cx="214" cy="120" r="8"/><circle cx="229" cy="113" r="8"/><circle cx="244" cy="118" r="8"/>
+    <circle cx="259" cy="112" r="8"/><circle cx="274" cy="118" r="8"/><circle cx="288" cy="122" r="7"/>
+    <circle cx="236" cy="125" r="7"/><circle cx="264" cy="125" r="7"/>
+  </g>
+  <path d="M200 124h104c0 26-22 44-52 44s-52-18-52-44z" fill="#FFFFFF" stroke="#E9D7B3" stroke-width="3"/>
+  <path d="M214 140c10 10 66 10 76 0" fill="none" stroke="#F3E6CC" stroke-width="3"/>
+</svg>

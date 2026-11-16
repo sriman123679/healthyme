@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Bowl of steam with ginger, lemon and basil">
+  <rect width="320" height="200" fill="#E0F0F6"/>
+  <circle cx="300" cy="10" r="80" fill="#CDE7F0"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round">
+    <path d="M128 92c-14-16 14-24 0-46"/><path d="M160 88c-14-16 14-24 0-46"/><path d="M192 92c-14-16 14-24 0-46"/>
+  </g>
+  <path d="M80 108h160c0 40-36 64-80 64s-80-24-80-64z" fill="#FFFFFF" stroke="#B9D7E3" stroke-width="3"/>
+  <ellipse cx="160" cy="108" rx="80" ry="14" fill="#BFE3F0" stroke="#B9D7E3" stroke-width="3"/>
+  <path d="M26 176c6-12 22-12 28-4 8-6 22-2 20 10-8 8-42 6-48-6z" fill="#E2B878"/>
+  <circle cx="276" cy="160" r="23" fill="#F5D33F"/>
+  <circle cx="276" cy="160" r="18" fill="#FBE98A"/>
+  <g stroke="#F5D33F" stroke-width="2">
+    <line x1="276" y1="142" x2="276" y2="178"/><line x1="258" y1="160" x2="294" y2="160"/>
+  </g>
+  <path d="M236 182c6-14 22-18 32-12-6 12-20 18-32 12z" fill="#5BA36B"/>
+  <path d="M218 186c2-12 14-18 24-16-4 10-14 18-24 16z" fill="#4E8A41"/>
+</svg>

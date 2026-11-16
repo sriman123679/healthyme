@@ -1,6 +1,6 @@
 // Service worker for My Thali Planner: lets the app open offline once it has been visited.
 // Bump CACHE_VERSION whenever index.html or other app files change, so users get the update.
-const CACHE_VERSION = "thali-v2";
+const CACHE_VERSION = "thali-v3";
 const FONT_CACHE = "thali-fonts-v1";
 const APP_SHELL = [
   "./",
@@ -8,7 +8,15 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./icons/maskable-512.png"
+  "./icons/maskable-512.png",
+  "./images/breakfast.svg",
+  "./images/fruit.svg",
+  "./images/lunch.svg",
+  "./images/snack.svg",
+  "./images/dinner.svg",
+  "./images/night.svg",
+  "./images/workout.svg",
+  "./images/steam.svg"
 ];
 
 self.addEventListener("install", event => {

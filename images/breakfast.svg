@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Steamed rice cakes with lentil stew and coconut chutney">
+  <rect width="320" height="200" fill="#FDF1DC"/>
+  <circle cx="30" cy="20" r="70" fill="#FBE4BC"/>
+  <circle cx="140" cy="108" r="78" fill="#FFFFFF" stroke="#EADFC9" stroke-width="3"/>
+  <circle cx="140" cy="108" r="64" fill="none" stroke="#F3EBDD" stroke-width="2"/>
+  <ellipse cx="115" cy="98" rx="34" ry="26" fill="#FBF9F1" stroke="#E2D9C4" stroke-width="2"/>
+  <ellipse cx="113" cy="93" rx="22" ry="13" fill="#FFFFFF"/>
+  <ellipse cx="162" cy="128" rx="34" ry="26" fill="#FBF9F1" stroke="#E2D9C4" stroke-width="2"/>
+  <ellipse cx="160" cy="123" rx="22" ry="13" fill="#FFFFFF"/>
+  <circle cx="252" cy="86" r="40" fill="#FFFFFF" stroke="#EADFC9" stroke-width="3"/>
+  <circle cx="252" cy="86" r="31" fill="#E07B32"/>
+  <circle cx="242" cy="78" r="5" fill="#F4B26B"/>
+  <circle cx="261" cy="95" r="4" fill="#5BA36B"/>
+  <rect x="254" y="71" width="8" height="8" rx="2" fill="#F7C873"/>
+  <circle cx="240" cy="97" r="4" fill="#B65A1F"/>
+  <circle cx="266" cy="80" r="3" fill="#5BA36B"/>
+  <circle cx="260" cy="156" r="24" fill="#FFFFFF" stroke="#EADFC9" stroke-width="3"/>
+  <circle cx="260" cy="156" r="17" fill="#F3EEDC"/>
+  <circle cx="255" cy="152" r="2.5" fill="#6EA65A"/>
+  <circle cx="265" cy="159" r="2.5" fill="#6EA65A"/>
+  <circle cx="258" cy="162" r="2" fill="#C0392B"/>
+  <path d="M40 168c10-18 30-22 44-18-8 14-26 24-44 18z" fill="#5BA36B"/>
+  <path d="M40 168c14-8 28-12 44-18" stroke="#3E7F4F" stroke-width="2" fill="none"/>
+</svg>

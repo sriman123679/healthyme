@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Yoga mat, dumbbell and water bottle">
+  <rect width="320" height="200" fill="#FFF6E4"/>
+  <circle cx="60" cy="40" r="34" fill="#F7D58C"/>
+  <rect y="172" width="320" height="28" fill="#F6E7C6"/>
+  <rect x="30" y="126" width="160" height="46" rx="23" fill="#4FA77C"/>
+  <circle cx="53" cy="149" r="23" fill="#3E8A65"/>
+  <circle cx="53" cy="149" r="13" fill="#2E6B4C"/>
+  <circle cx="53" cy="149" r="5" fill="#3E8A65"/>
+  <rect x="208" y="152" width="74" height="10" rx="5" fill="#7A8790"/>
+  <rect x="200" y="137" width="18" height="40" rx="5" fill="#E08A12"/>
+  <rect x="272" y="137" width="18" height="40" rx="5" fill="#E08A12"/>
+  <rect x="232" y="50" width="36" height="80" rx="12" fill="#6BC0E0"/>
+  <rect x="240" y="36" width="20" height="18" rx="4" fill="#2C7DA0"/>
+  <rect x="238" y="70" width="24" height="28" rx="4" fill="#FFFFFF" opacity=".55"/>
+</svg>

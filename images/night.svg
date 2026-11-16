@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Warm turmeric milk at night">
+  <rect width="320" height="200" fill="#25304D"/>
+  <path d="M262 26a28 28 0 1 0 24 42 24 24 0 1 1-24-42z" fill="#F5E6B8"/>
+  <g fill="#F5E6B8">
+    <circle cx="40" cy="30" r="2"/><circle cx="90" cy="54" r="1.6"/><circle cx="200" cy="24" r="2"/>
+    <circle cx="300" cy="110" r="1.6"/><circle cx="30" cy="110" r="1.6"/><circle cx="160" cy="18" r="1.4"/>
+  </g>
+  <rect y="168" width="320" height="32" fill="#1C2540"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".45">
+    <path d="M140 66c-8-10 8-16 0-28"/><path d="M168 66c-8-10 8-16 0-28"/>
+  </g>
+  <path d="M200 98c28 0 28 42 0 42" fill="none" stroke="#F4EDE0" stroke-width="10"/>
+  <path d="M110 80h90v70c0 11-9 20-20 20h-50c-11 0-20-9-20-20z" fill="#F4EDE0"/>
+  <ellipse cx="155" cy="80" rx="45" ry="9" fill="#F2C14E"/>
+  <g fill="#D69A2D"><circle cx="146" cy="79" r="1.8"/><circle cx="160" cy="82" r="1.8"/><circle cx="168" cy="77" r="1.5"/></g>
+  <rect x="118" y="112" width="74" height="6" rx="3" fill="#E9DFC9"/>
+</svg>
