@@ -1,6 +1,6 @@
 // Service worker for My Thali Planner: lets the app open offline once it has been visited.
 // Bump CACHE_VERSION whenever index.html or other app files change, so users get the update.
-const CACHE_VERSION = "thali-v3";
+const CACHE_VERSION = "thali-v4";
 const FONT_CACHE = "thali-fonts-v1";
 const APP_SHELL = [
   "./",

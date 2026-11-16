@@ -16,7 +16,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@400;600;700&display=swap">
 <style>
 /* Layout: app shell. Phone = sticky top bar + Material-style bottom navigation.
    Desktop (>=900px) = left sidebar + centred content column. Herb-and-spice palette. */
@@ -50,7 +50,7 @@
   --wo-b: #E08A12;
   --wo-ink: #2B1A02;
   --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-body: "Inter", "Noto Sans Tamil", "Latha", "Segoe UI", Roboto, system-ui, sans-serif;
   --font-mono: "DM Mono", ui-monospace, Consolas, monospace;
   --radius: 20px;
 }
@@ -163,7 +163,9 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
 .view { max-width: 940px; margin: 0 auto; display: grid; gap: 20px; animation: rise .28s ease both; }
 @keyframes rise { from { transform: translateY(6px); } to { transform: none; } }
 .view-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between; }
-.view-head > div:not(.seg) { display: grid; gap: 4px; min-width: 0; }
+.view-head > div:not(.seg):not(.segs) { display: grid; gap: 4px; min-width: 0; }
+.segs { display: flex; gap: 8px; flex-wrap: wrap; }
+[lang="ta"] { font-family: "Noto Sans Tamil", "Latha", var(--font-body); line-height: 1.6; }
 
 .bottomnav {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
@@ -424,9 +426,15 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
 
         <div class="view-head">
           <h2>Your day</h2>
-          <div class="seg pref-seg" role="group" aria-label="Food preference">
-            <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
-            <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+          <div class="segs">
+            <div class="seg pref-seg" role="group" aria-label="Food preference">
+              <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+              <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+            </div>
+            <div class="seg" role="group" aria-label="Meal language">
+              <button type="button" data-lang="en" aria-pressed="true">English</button>
+              <button type="button" data-lang="ta" aria-pressed="false" lang="ta">தமிழ்</button>
+            </div>
           </div>
         </div>
         <ol class="timeline" id="timeline"></ol>
@@ -444,16 +452,22 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
       <!-- MEALS -->
       <section class="view" id="view-meals" hidden>
         <div class="view-head">
-          <div><span class="eyebrow">7-day menu</span><h1>Meal plan</h1></div>
-          <div class="seg pref-seg" role="group" aria-label="Food preference">
-            <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
-            <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+          <div><span class="eyebrow">7-day Tamil Nadu menu</span><h1>Meal plan</h1></div>
+          <div class="segs">
+            <div class="seg pref-seg" role="group" aria-label="Food preference">
+              <button type="button" data-pref="veg" aria-pressed="true"><span class="mark veg"></span>Veg</button>
+              <button type="button" data-pref="nv" aria-pressed="false"><span class="mark nv"></span>Non-veg</button>
+            </div>
+            <div class="seg" role="group" aria-label="Meal language">
+              <button type="button" data-lang="en" aria-pressed="true">English</button>
+              <button type="button" data-lang="ta" aria-pressed="false" lang="ta">தமிழ்</button>
+            </div>
           </div>
         </div>
         <div class="chips" id="mealDays" role="group" aria-label="Day"></div>
         <div class="meals" id="mealList"></div>
         <div class="total"><span>Total for the day</span><b>≈ 1,430 kcal</b></div>
-        <p class="small muted">Portions use a normal 200 ml cup or small bowl. Use 3–4 tsp of oil in total for the whole day. Make flatbreads without butter or ghee. You can swap meals between days.</p>
+        <p class="small muted">1 cup = a normal 200 ml katori. Use 3–4 tsp of oil in total for the whole day. Make chapati and dosa with very little oil or ghee. You can swap meals between days.</p>
       </section>
 
       <!-- WORKOUT -->
@@ -499,8 +513,8 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
           <div class="card">
             <div class="card-title"><span class="bubble sky"><svg class="icon"><use href="#i-wind"/></svg></span><h3>Breathing for your sinus</h3></div>
             <ul class="list">
-              <li><span><b>Humming breath:</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds</span></li>
-              <li><span><b>Alternate-nostril breathing:</b> breathe slowly through one nostril at a time for 3 minutes. Skip it if one side is fully blocked.</span></li>
+              <li><span><b>Humming breath (bhramari):</b> breathe in through the nose and hum softly as you breathe out, 5–7 rounds</span></li>
+              <li><span><b>Alternate-nostril breathing (nadi shodhana):</b> breathe slowly through one nostril at a time for 3 minutes. Skip it if one side is fully blocked.</span></li>
               <li><span>Do these after steam, and never force your breath</span></li>
             </ul>
           </div>
@@ -535,10 +549,11 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
             <div class="card">
               <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-check"/></svg></span><h3>Helps</h3></div>
               <ul class="list">
-                <li><span>Warm water, clear soups and pepper soup through the day</span></li>
-                <li><span>1–2 cups of ginger basil tea without sugar</span></li>
+                <li><span>Warm water, clear soups and milagu rasam through the day</span></li>
+                <li><span>1–2 cups of inji-thulasi tea (ginger and holy basil) without sugar</span></li>
                 <li><span>Turmeric, garlic, black pepper and ginger in your cooking</span></li>
-                <li><span>Vitamin C fruits every day: Indian gooseberry, guava, orange, lemon</span></li>
+                <li><span>Vitamin C fruits every day: nellikai (amla), koyya (guava), orange, lemon</span></li>
+                <li><span>Pepper, inji (ginger), poondu (garlic) and manjal (turmeric) in your cooking</span></li>
                 <li><span>5–10 minutes of steam, morning and night. Keep your face a safe distance from the water.</span></li>
                 <li><span>Sleep with your head slightly raised, for 8–9 hours</span></li>
               </ul>
@@ -548,7 +563,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
               <ul class="list limit">
                 <li><span>Ice-cold water, ice cream, cold drinks, chilled juices</span></li>
                 <li><span>Fried snacks, bakery items, sugary sweets</span></li>
-                <li><span>Yogurt or buttermilk straight from the fridge, or late at night</span></li>
+                <li><span>Thayir (curd) or mor (buttermilk) straight from the fridge, or late at night</span></li>
                 <li><span>Dust, perfume, incense smoke, and cold wind while riding</span></li>
               </ul>
             </div>
@@ -556,7 +571,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
           <div class="grid-2">
             <div class="card">
               <h3>About milk and dairy</h3>
-              <p class="small">Research does not show that milk causes sinus problems, but some people feel more blocked after cold milk. If you do, have dairy warm and earlier in the day. Don't cut it out completely, because teens need 1,000–1,300 mg of calcium a day. Finger millet, sesame seeds, leafy greens and cottage cheese also give calcium.</p>
+              <p class="small">Research does not show that milk causes sinus problems, but some people feel more blocked after cold milk. If you do, have dairy warm and earlier in the day. Don't cut it out completely, because teens need 1,000–1,300 mg of calcium a day. Ragi (kezhvaragu), ellu (sesame), keerai (greens) and paneer also give calcium.</p>
             </div>
             <div class="card">
               <h3>Frequent sneezing may be an allergy</h3>
@@ -586,9 +601,9 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
                 <circle cx="65" cy="65" r="55" fill="none" stroke="var(--surface)" stroke-width="3"/>
               </svg>
               <ul class="legend">
-                <li><i style="background:var(--primary)"></i><span><b>½ vegetables and salad</b><br><span class="small muted">cooked vegetables, greens, cucumber, carrot</span></span></li>
-                <li><i style="background:var(--chili)"></i><span><b>¼ protein</b><br><span class="small muted">lentils, cottage cheese, egg, chicken, fish</span></span></li>
-                <li><i style="background:var(--accent)"></i><span><b>¼ flatbread or rice</b><br><span class="small muted">wheat, sorghum or millet flatbread, brown rice</span></span></li>
+                <li><i style="background:var(--primary)"></i><span><b>½ vegetables and salad</b><br><span class="small muted">poriyal, kootu, keerai, avial, salad</span></span></li>
+                <li><i style="background:var(--chili)"></i><span><b>¼ protein</b><br><span class="small muted">paruppu, sundal, egg, chicken, fish, paneer</span></span></li>
+                <li><i style="background:var(--accent)"></i><span><b>¼ rice or chapati</b><br><span class="small muted">1 cup rice, chapati, ragi or millet dosa</span></span></li>
               </ul>
             </div>
           </div>
@@ -596,22 +611,24 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
             <div class="card">
               <div class="card-title"><span class="bubble"><svg class="icon"><use href="#i-leaf"/></svg></span><h3>Eat more</h3></div>
               <ul class="list">
-                <li><span>Lentils, chickpeas, kidney beans, sprouts, chickpea flour</span></li>
+                <li><span>Paruppu (dal), sundal: kondakadalai, karamani, pachai payaru</span></li>
                 <li><span>Eggs, and chicken without skin or fish, grilled or in curry</span></li>
-                <li><span>Small portions of cottage cheese and yogurt</span></li>
-                <li><span>Sorghum, finger millet, pearl millet, oats, brown rice, broken wheat</span></li>
+                <li><span>Small portions of paneer and thayir (curd)</span></li>
+                <li><span>Millets: ragi, kambu, thinai, cholam, plus oats and brown rice</span></li>
+                <li><span>Keerai (greens) at least 4 days a week</span></li>
                 <li><span>Whole fruit, not juice</span></li>
-                <li><span>Roasted chickpeas, roasted fox nuts, a few peanuts</span></li>
+                <li><span>Pottukadalai, boiled verkadalai (peanuts), sundal</span></li>
               </ul>
             </div>
             <div class="card">
               <div class="card-title"><span class="bubble warn"><svg class="icon"><use href="#i-alert"/></svg></span><h3>Once a week or less</h3></div>
               <ul class="list limit">
-                <li><span>Deep-fried snacks, fritters, chips, puff pastries, fried chicken</span></li>
+                <li><span>Bajji, bonda, vadai, samosa, murukku, mixture, chips</span></li>
+                <li><span>Chicken 65, fried chicken, parotta with salna</span></li>
                 <li><span>Maggi, pizza, burgers, canteen fried rice</span></li>
                 <li><span>Soft drinks, packaged juice, sugary chai</span></li>
-                <li><span>Biscuits, cakes, Indian sweets, chocolates</span></li>
-                <li><span>Big portions of white rice, layered flatbreads, white-flour breads</span></li>
+                <li><span>Biscuits, cakes, sweets (mysore pak, jangiri), chocolates</span></li>
+                <li><span>Second helpings of white rice, and lemon or tamarind rice with lots of oil</span></li>
               </ul>
             </div>
           </div>
@@ -623,7 +640,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
               <div><dt>Fibre</dt><dd>25 g or more</dd></div>
               <div><dt>Water</dt><dd>2.5 L, warm or at room temperature</dd></div>
               <div><dt>Calcium</dt><dd>1,000–1,300 mg</dd></div>
-              <div><dt>Iron</dt><dd>15 mg: leafy greens, lentils, eggs and meat, eaten with lemon</dd></div>
+              <div><dt>Iron</dt><dd>15 mg: keerai, paruppu, eggs, meat, dates, with lemon or nellikai for better absorption</dd></div>
             </dl>
           </div>
         </div>
@@ -695,51 +712,97 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
   const icon = (n, cls = "icon") => `<svg class="${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 
   // ---------- data ----------
-  // Each meal slot: [vegetarian, non-vegetarian]
+  // Tamil Nadu home-style menu. Each meal slot: [vegetarian, non-vegetarian]
+  // WEEK = names in English letters (as spoken in Tamil Nadu), WEEK_TA = same meals in Tamil script.
   const WEEK = [
     { day: "Mon",
-      B: ["2 steamed rice cakes (idli) + 1 cup lentil vegetable stew (sambar) + 1 tbsp coconut chutney", "2 steamed rice cakes (idli) + 1 cup lentil vegetable stew (sambar) + 1 boiled egg"],
-      M: ["1 guava", "1 guava"],
-      L: ["2 thin wheat flatbreads + 1 cup lentil curry + 1 cup okra stir-fry + salad", "2 thin wheat flatbreads + 1 cup home-style chicken curry (80 g, less oil) + salad"],
-      S: ["30 g roasted chickpeas + ginger basil tea (no sugar)", "30 g roasted chickpeas + ginger basil tea (no sugar)"],
-      D: ["1 cup vegetable broken-wheat porridge + 50 g scrambled cottage cheese", "100 g pan-grilled fish + 1 cup sautéed vegetables + 1 thin wheat flatbread"] },
+      B: ["2 idli + 1 cup sambar + 1 tbsp coconut chutney", "2 idli + 1 cup sambar + 1 boiled egg"],
+      M: ["1 koyya (guava)", "1 koyya (guava)"],
+      L: ["1 cup rice + sambar + vendakkai poriyal + rasam + cucumber", "1 cup rice + chicken kuzhambu (80 g, less oil) + vendakkai poriyal"],
+      S: ["30 g pottukadalai + inji-thulasi tea (no sugar)", "30 g pottukadalai + inji-thulasi tea (no sugar)"],
+      D: ["2 chapati + 1 cup vegetable kurma (less coconut)", "2 chapati + 100 g tawa fish fry (less oil) + vegetables"] },
     { day: "Tue",
-      B: ["1 cup vegetable flattened rice (poha) + 1 tsp peanuts + lemon", "2-egg vegetable omelette + 1 slice multigrain toast"],
+      B: ["1 cup vegetable rava upma + tomato chutney", "2-egg vegetable omelette + 1 chapati"],
       M: ["1 orange", "1 orange"],
-      L: ["1 cup rice + 1 cup kidney bean curry + cucumber salad", "1 cup rice + egg curry (2 eggs) + cucumber salad"],
-      S: ["1 cup sprouted green gram salad with lemon", "1 cup sprouted green gram salad with lemon"],
-      D: ["2 green gram lentil pancakes + mint chutney + 1 cup vegetables", "1 bowl clear chicken soup + 1 thin wheat flatbread + 1 cup vegetables"] },
+      L: ["1 cup rice + keerai kootu + milagu rasam + salad", "1 cup rice + muttai kuzhambu (2 eggs) + keerai poriyal"],
+      S: ["1 cup kondakadalai sundal with lemon", "1 cup kondakadalai sundal with lemon"],
+      D: ["2 adai (lentil dosa) + tomato chutney", "2 idli + 1 bowl milagu chicken soup"] },
     { day: "Wed",
-      B: ["1 cup vegetable semolina porridge (upma) + 1 cup lentil vegetable stew", "Spiced scrambled eggs (2 eggs) + 1 thin wheat flatbread"],
+      B: ["2 ragi dosa + 1 cup sambar", "2 ragi dosa + muttai podimas (1 egg)"],
       M: ["1 apple", "1 apple"],
-      L: ["2 sorghum flatbreads + 1 cup chickpea curry + salad", "2 sorghum flatbreads + 1 cup fish curry + salad"],
-      S: ["1 cup roasted fox nuts (makhana) + basil tea", "1 cup roasted fox nuts (makhana) + basil tea"],
-      D: ["1 bowl vegetable soup + 75 g grilled cottage cheese cubes", "1 bowl vegetable soup + 100 g grilled chicken"] },
+      L: ["1 cup rice + kara kuzhambu (less oil) + cabbage poriyal + ½ cup curd (room temp)", "1 cup rice + meen kuzhambu (fish curry) + cabbage poriyal"],
+      S: ["30 g boiled verkadalai (peanuts) + green tea", "30 g boiled verkadalai (peanuts) + green tea"],
+      D: ["2 idiyappam + 1 cup vegetable stew", "2 idiyappam + 1 cup chicken stew (less coconut milk)"] },
     { day: "Thu",
-      B: ["1 cup savoury spiced oats with vegetables", "1 cup savoury spiced oats + 1 boiled egg"],
+      B: ["1 cup ven pongal (less ghee) + sambar", "1 cup ven pongal (less ghee) + sambar + 1 boiled egg"],
       M: ["1 cup papaya", "1 cup papaya"],
-      L: ["1 cup rice + lentil vegetable stew + 1 cup green beans stir-fry + ½ cup yogurt (room temperature)", "1 cup rice + 1 cup chicken curry + 1 cup green beans stir-fry"],
-      S: ["20 g roasted peanuts + green tea", "20 g roasted peanuts + green tea"],
-      D: ["2 finger millet crepes + 1 cup lentil vegetable stew", "2 finger millet crepes + egg curry (1 egg)"] },
+      L: ["1 cup rice + paruppu + rasam + beans poriyal", "1 cup rice + pepper chicken (80 g) + beans poriyal + rasam"],
+      S: ["1 cup karamani sundal + inji tea", "1 cup karamani sundal + inji tea"],
+      D: ["2 godhumai (wheat) dosa + 1 cup sambar", "2 godhumai (wheat) dosa + muttai curry (1 egg)"] },
     { day: "Fri",
-      B: ["2 chickpea flour pancakes with onion, tomato and spinach", "2 chickpea flour pancakes + 1 boiled egg"],
-      M: ["½ cup pomegranate", "½ cup pomegranate"],
-      L: ["1 cup vegetable rice + ½ cup cucumber yogurt + salad", "1 cup chicken rice (lean pieces) + salad"],
-      S: ["1 cup sprouts or 30 g roasted chickpeas + ginger tea", "1 cup sprouts or 30 g roasted chickpeas + ginger tea"],
-      D: ["1 cup spinach with cottage cheese + 1 thin wheat flatbread", "1 cup chicken or fish stir-fry with vegetables + 1 thin wheat flatbread"] },
+      B: ["2 thinai (millet) idli + sambar + chutney", "2 thinai (millet) idli + sambar + 1 boiled egg"],
+      M: ["½ cup maadhulai (pomegranate)", "½ cup maadhulai (pomegranate)"],
+      L: ["1 cup vegetable rice + vellarikkai thayir pachadi + salad", "1 cup chicken biryani (lean pieces, less oil) + onion pachadi"],
+      S: ["1 cup pachai payaru (green gram) sundal + inji tea", "1 cup pachai payaru (green gram) sundal + inji tea"],
+      D: ["2 chapati + 1 cup keerai masiyal", "2 chapati + 1 cup milagu fish/chicken fry (less oil)"] },
     { day: "Sat",
-      B: ["2 plain rice and lentil crepes (dosa, less oil) + 1 cup lentil vegetable stew", "2 plain rice and lentil crepes (dosa) + 1 cup lentil vegetable stew + 1 boiled egg"],
+      B: ["2 dosa (less oil) + 1 cup sambar", "2 dosa (less oil) + 1 cup sambar + 1 boiled egg"],
       M: ["1 orange", "1 orange"],
-      L: ["2 thin wheat flatbreads + 1 cup mixed lentil curry + 1 cup bottle gourd curry", "2 thin wheat flatbreads + egg curry (2 eggs) + 1 cup bottle gourd curry"],
-      S: ["30 g roasted chickpeas + ginger basil tea", "30 g roasted chickpeas + ginger basil tea"],
-      D: ["1 cup rice and lentil porridge with vegetables", "1 bowl clear chicken soup + ¾ cup rice and lentil porridge"] },
+      L: ["1 cup rice + avial + rasam + salad", "1 cup rice + muttai kuzhambu (2 eggs) + poriyal"],
+      S: ["30 g pottukadalai + inji-thulasi tea", "30 g pottukadalai + inji-thulasi tea"],
+      D: ["1 cup vegetable kichadi + 1 tbsp chutney", "2 idli + 1 bowl clear chicken soup"] },
     { day: "Sun",
-      B: ["2 steamed rice cakes (idli) or 1 cup semolina porridge + lentil vegetable stew", "2 steamed rice cakes (idli) + lentil vegetable stew + 1 boiled egg"],
-      M: ["1 guava", "1 guava"],
-      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal of your choice (e.g. 1 cup chicken rice) + yogurt dip + salad"],
-      S: ["1 fruit + ginger tea", "1 fruit + ginger tea"],
-      D: ["1 bowl vegetable soup + 2 chickpea flour pancakes", "1 bowl vegetable soup + 100 g grilled fish or chicken"] }
+      B: ["2 idli or 2 dosa + sambar", "2 idli + sambar + 1 boiled egg"],
+      M: ["1 koyya (guava)", "1 koyya (guava)"],
+      L: ["Family meal of your choice, half plate vegetables. A small treat is fine today.", "Family meal (e.g. 1 cup rice + chicken kuzhambu) + poriyal + salad"],
+      S: ["1 fruit + inji tea", "1 fruit + inji tea"],
+      D: ["1 bowl vegetable soup + 2 godhumai dosa", "1 bowl vegetable soup + 100 g grilled fish"] }
   ];
+
+  const WEEK_TA = [
+    { B: ["2 இட்லி + 1 கப் சாம்பார் + 1 ஸ்பூன் தேங்காய் சட்னி", "2 இட்லி + 1 கப் சாம்பார் + 1 அவித்த முட்டை"],
+      M: ["1 கொய்யா", "1 கொய்யா"],
+      L: ["1 கப் சாதம் + சாம்பார் + வெண்டைக்காய் பொரியல் + ரசம் + வெள்ளரி", "1 கப் சாதம் + சிக்கன் குழம்பு (80 கி, குறைந்த எண்ணெய்) + வெண்டைக்காய் பொரியல்"],
+      S: ["30 கி பொட்டுக்கடலை + இஞ்சி-துளசி டீ (சர்க்கரை இல்லாமல்)", "30 கி பொட்டுக்கடலை + இஞ்சி-துளசி டீ (சர்க்கரை இல்லாமல்)"],
+      D: ["2 சப்பாத்தி + 1 கப் காய்கறி குருமா (குறைந்த தேங்காய்)", "2 சப்பாத்தி + 100 கி தவா மீன் வறுவல் (குறைந்த எண்ணெய்) + காய்கறி"] },
+    { B: ["1 கப் காய்கறி ரவா உப்புமா + தக்காளி சட்னி", "2 முட்டை காய்கறி ஆம்லெட் + 1 சப்பாத்தி"],
+      M: ["1 ஆரஞ்சு", "1 ஆரஞ்சு"],
+      L: ["1 கப் சாதம் + கீரை கூட்டு + மிளகு ரசம் + சாலட்", "1 கப் சாதம் + முட்டை குழம்பு (2 முட்டை) + கீரை பொரியல்"],
+      S: ["1 கப் கொண்டைக்கடலை சுண்டல் + எலுமிச்சை", "1 கப் கொண்டைக்கடலை சுண்டல் + எலுமிச்சை"],
+      D: ["2 அடை + தக்காளி சட்னி", "2 இட்லி + 1 கிண்ணம் மிளகு சிக்கன் சூப்"] },
+    { B: ["2 கேழ்வரகு தோசை + 1 கப் சாம்பார்", "2 கேழ்வரகு தோசை + முட்டை பொடிமாஸ் (1 முட்டை)"],
+      M: ["1 ஆப்பிள்", "1 ஆப்பிள்"],
+      L: ["1 கப் சாதம் + கார குழம்பு (குறைந்த எண்ணெய்) + முட்டைகோஸ் பொரியல் + ½ கப் தயிர்", "1 கப் சாதம் + மீன் குழம்பு + முட்டைகோஸ் பொரியல்"],
+      S: ["30 கி அவித்த வேர்க்கடலை + கிரீன் டீ", "30 கி அவித்த வேர்க்கடலை + கிரீன் டீ"],
+      D: ["2 இடியாப்பம் + 1 கப் காய்கறி ஸ்டூ", "2 இடியாப்பம் + 1 கப் சிக்கன் ஸ்டூ (குறைந்த தேங்காய்ப்பால்)"] },
+    { B: ["1 கப் வெண் பொங்கல் (குறைந்த நெய்) + சாம்பார்", "1 கப் வெண் பொங்கல் (குறைந்த நெய்) + சாம்பார் + 1 அவித்த முட்டை"],
+      M: ["1 கப் பப்பாளி", "1 கப் பப்பாளி"],
+      L: ["1 கப் சாதம் + பருப்பு + ரசம் + பீன்ஸ் பொரியல்", "1 கப் சாதம் + மிளகு சிக்கன் (80 கி) + பீன்ஸ் பொரியல் + ரசம்"],
+      S: ["1 கப் காராமணி சுண்டல் + இஞ்சி டீ", "1 கப் காராமணி சுண்டல் + இஞ்சி டீ"],
+      D: ["2 கோதுமை தோசை + 1 கப் சாம்பார்", "2 கோதுமை தோசை + முட்டை கறி (1 முட்டை)"] },
+    { B: ["2 தினை இட்லி + சாம்பார் + சட்னி", "2 தினை இட்லி + சாம்பார் + 1 அவித்த முட்டை"],
+      M: ["½ கப் மாதுளை", "½ கப் மாதுளை"],
+      L: ["1 கப் காய்கறி சாதம் + வெள்ளரிக்காய் தயிர் பச்சடி + சாலட்", "1 கப் சிக்கன் பிரியாணி (குறைந்த எண்ணெய்) + வெங்காய பச்சடி"],
+      S: ["1 கப் பச்சைப்பயறு சுண்டல் + இஞ்சி டீ", "1 கப் பச்சைப்பயறு சுண்டல் + இஞ்சி டீ"],
+      D: ["2 சப்பாத்தி + 1 கப் கீரை மசியல்", "2 சப்பாத்தி + 1 கப் மிளகு மீன்/சிக்கன் வறுவல் (குறைந்த எண்ணெய்)"] },
+    { B: ["2 தோசை (குறைந்த எண்ணெய்) + 1 கப் சாம்பார்", "2 தோசை (குறைந்த எண்ணெய்) + 1 கப் சாம்பார் + 1 அவித்த முட்டை"],
+      M: ["1 ஆரஞ்சு", "1 ஆரஞ்சு"],
+      L: ["1 கப் சாதம் + அவியல் + ரசம் + சாலட்", "1 கப் சாதம் + முட்டை குழம்பு (2 முட்டை) + பொரியல்"],
+      S: ["30 கி பொட்டுக்கடலை + இஞ்சி-துளசி டீ", "30 கி பொட்டுக்கடலை + இஞ்சி-துளசி டீ"],
+      D: ["1 கப் காய்கறி கிச்சடி + 1 ஸ்பூன் சட்னி", "2 இட்லி + 1 கிண்ணம் சிக்கன் சூப்"] },
+    { B: ["2 இட்லி அல்லது 2 தோசை + சாம்பார்", "2 இட்லி + சாம்பார் + 1 அவித்த முட்டை"],
+      M: ["1 கொய்யா", "1 கொய்யா"],
+      L: ["விருப்பமான குடும்ப உணவு, பாதி தட்டு காய்கறி. இன்று சிறிய விருந்து பரவாயில்லை.", "குடும்ப உணவு (உதா: 1 கப் சாதம் + சிக்கன் குழம்பு) + பொரியல் + சாலட்"],
+      S: ["1 பழம் + இஞ்சி டீ", "1 பழம் + இஞ்சி டீ"],
+      D: ["1 கிண்ணம் காய்கறி சூப் + 2 கோதுமை தோசை", "1 கிண்ணம் காய்கறி சூப் + 100 கி வாட்டிய மீன்"] }
+  ];
+
+  // Slot titles in Tamil
+  const TITLE_TA = {
+    wake: "எழுதல்", steam: "ஆவி பிடித்தல் + நீட்சி", B: "காலை உணவு", M: "காலை பழம்", L: "மதிய உணவு",
+    S: "மாலை சிற்றுண்டி", walk: "உடற்பயிற்சி", D: "இரவு உணவு", night: "இரவு (விருப்பம்)", sleep: "தூக்கம்"
+  };
+  const NIGHT_FOOD = { en: "½ cup warm manjal paal (turmeric milk) or inji-manjal water", ta: "½ கப் சூடான மஞ்சள் பால் அல்லது இஞ்சி-மஞ்சள் தண்ணீர்" };
 
   const SLOTS = [
     { t: "07:00", id: "wake",  icon: "sun",      title: "Wake up",           habit: true, note: "1–2 glasses of warm water. Add lemon and a slice of ginger if you like." },
@@ -750,7 +813,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     { t: "16:30", id: "S",     icon: "cup",      title: "Evening snack",     kcal: 150, note: "Warm tea without sugar. Skip biscuits and fried snacks." },
     { t: "17:30", id: "walk",  icon: "activity", title: "Exercise",          habit: true, note: "See the Workout tab." },
     { t: "19:30", id: "D",     icon: "utensils", title: "Dinner",            kcal: 350, note: "Light and warm, and 2½ hours before bed." },
-    { t: "21:15", id: "night", icon: "moon",     title: "Wind down",         kcal: 50, habit: true, note: "Optional: ½ cup warm low-fat turmeric milk or turmeric–ginger water. Steam again if your nose is blocked." },
+    { t: "21:15", id: "night", icon: "moon",     title: "Wind down",         kcal: 50, habit: true, note: "Steam again if your nose is blocked." },
     { t: "22:00", id: "sleep", icon: "moon",     title: "Sleep",             habit: true, note: "Lights off for 9 hours of sleep. Put your phone away 30 minutes before, and use an extra pillow." }
   ];
   const TOTAL_KCAL = SLOTS.reduce((a, s) => a + (s.kcal || 0), 0);
@@ -797,6 +860,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
   const now = new Date();
   const todayIdx = (now.getDay() + 6) % 7; // 0 = Monday
   let pref = store.get("pref", "veg") === "nv" ? "nv" : "veg";
+  let lang = store.get("lang", "en") === "ta" ? "ta" : "en";
   let mealDay = todayIdx, exDay = todayIdx, routine = todayIdx === 2 ? "B" : "A", care = "sinus";
   const prefIdx = () => (pref === "nv" ? 1 : 0);
   const weekDates = WEEK.map((_, i) => { const d = new Date(now); d.setDate(now.getDate() - todayIdx + i); return d.getDate(); });
@@ -830,13 +894,24 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
   }
   document.querySelectorAll("[data-pref]").forEach(b => b.addEventListener("click", () => setPref(b.dataset.pref)));
 
+  // ---------- meal language (English letters or Tamil script) ----------
+  function setLang(l) {
+    lang = l === "ta" ? "ta" : "en"; store.set("lang", lang);
+    document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    renderToday(); renderMeals();
+  }
+  document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  const foodFor = (day, id) => { const src = lang === "ta" ? WEEK_TA : WEEK; return src[day][id] ? src[day][id][prefIdx()] : null; };
+  const titleFor = s => (s.id !== "walk" && lang === "ta" && TITLE_TA[s.id]) ? TITLE_TA[s.id] : s.title;
+  const langAttr = () => (lang === "ta" ? ' lang="ta"' : "");
+
   // ---------- today ----------
   const checksKey = () => "checks-" + dateKey();
   const waterKey = () => "water-" + dateKey();
   const slotFor = s => {
     if (s.id !== "walk") return s;
     const ex = EX_WEEK[todayIdx];
-    return Object.assign({}, s, { title: "Exercise · " + ex.title, note: ex.steps.join(" · ") });
+    return Object.assign({}, s, { title: (lang === "ta" ? TITLE_TA.walk : "Exercise") + " · " + ex.title, note: ex.steps.join(" · ") });
   };
 
   function ring(pct, color, ic) {
@@ -861,8 +936,10 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     const s = slotFor(next);
     const diff = toMin(s.t) - mins;
     const inTxt = diff >= 60 ? `in ${Math.floor(diff / 60)} h ${diff % 60} min` : `in ${diff} min`;
-    const food = WEEK[todayIdx][s.id] ? WEEK[todayIdx][s.id][prefIdx()] : s.note;
-    $("nextUp").innerHTML = `${IMG[s.id] ? imgTag(s.id, "next-img", "") : `<span class="ic">${icon(s.icon)}</span>`}<div><span class="meta">Next up · ${fmt12(s.t)} · ${inTxt}</span><strong>${esc(s.title)}</strong><p>${esc(food)}</p></div>`;
+    const meal = foodFor(todayIdx, s.id);
+    const food = meal || (s.id === "night" ? NIGHT_FOOD[lang] : s.note);
+    const la = (meal || s.id === "night") ? langAttr() : "";
+    $("nextUp").innerHTML = `${IMG[s.id] ? imgTag(s.id, "next-img", "") : `<span class="ic">${icon(s.icon)}</span>`}<div><span class="meta">Next up · ${fmt12(s.t)} · ${inTxt}</span><strong${langAttr()}>${esc(titleFor(s))}</strong><p${la}>${esc(food)}</p></div>`;
   }
 
   function renderRings() {
@@ -884,16 +961,16 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     const markCls = pref === "nv" ? "nv" : "veg";
     $("timeline").innerHTML = SLOTS.map(raw => {
       const s = slotFor(raw);
-      const food = WEEK[todayIdx][s.id] ? WEEK[todayIdx][s.id][prefIdx()] : null;
+      const food = foodFor(todayIdx, s.id) || (s.id === "night" ? NIGHT_FOOD[lang] : null);
       const done = !!ch[s.id];
       const isNow = s.id === currentId && !done;
       return `<li class="tl${s.habit ? " habit" : ""}${done ? " done" : ""}${isNow ? " now" : ""}">
         ${IMG[s.id] ? imgTag(s.id, "thumb", "") : `<span class="ic">${icon(s.icon)}</span>`}
         <div class="tl-body">
           <div class="tl-top"><span class="time">${fmt12(s.t)}</span>${isNow ? `<span class="now-tag">Now</span>` : ""}${s.kcal ? `<span class="badge">${s.kcal} kcal</span>` : ""}</div>
-          <h3>${esc(s.title)}</h3>
-          ${food ? `<div class="food"><span class="mark ${markCls}"></span><span>${esc(food)}</span></div>` : ""}
-          <p class="note">${esc(s.note)}</p>
+          <h3${langAttr()}>${esc(titleFor(s))}</h3>
+          ${food ? `<div class="food"><span class="mark ${markCls}"></span><span${langAttr()}>${esc(food)}</span></div>` : ""}
+          <p class="note">${esc(s.id === "night" ? "Steam again if your nose is blocked." : s.note)}</p>
         </div>
         <button type="button" class="tick" id="tick-${s.id}" data-id="${s.id}" aria-pressed="${done}" aria-label="Mark ${esc(s.title)} done">${icon("check")}</button>
       </li>`;
@@ -932,13 +1009,13 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
     $("mealDays").innerHTML = chipsHTML(mealDay, "data-mday");
     const d = WEEK[mealDay];
     const markCls = pref === "nv" ? "nv" : "veg";
-    const meals = SLOTS.filter(s => d[s.id]).map(s => ({ id: s.id, t: s.t, title: s.title, icon: s.icon, kcal: s.kcal, food: d[s.id][prefIdx()] }));
-    meals.push({ id: "night", t: "21:15", title: "Optional at night", icon: "moon", kcal: 50, food: "½ cup warm turmeric milk or turmeric–ginger water" });
+    const meals = SLOTS.filter(s => d[s.id]).map(s => ({ id: s.id, t: s.t, title: titleFor(s), icon: s.icon, kcal: s.kcal, food: foodFor(mealDay, s.id) }));
+    meals.push({ id: "night", t: "21:15", title: lang === "ta" ? TITLE_TA.night : "Optional at night", icon: "moon", kcal: 50, food: NIGHT_FOOD[lang] });
     $("mealList").innerHTML = meals.map(m => `<article class="meal">
-      ${imgTag(m.id, "meal-img", m.title + " illustration")}
+      ${imgTag(m.id, "meal-img", "")}
       <div class="meal-top"><span class="when">${icon(m.icon)}${fmt12(m.t)}</span><span class="badge">${m.kcal} kcal</span></div>
-      <h3>${esc(m.title)}</h3>
-      <div class="food"><span class="mark ${markCls}"></span><span>${esc(m.food)}</span></div>
+      <h3${langAttr()}>${esc(m.title)}</h3>
+      <div class="food"><span class="mark ${markCls}"></span><span${langAttr()}>${esc(m.food)}</span></div>
     </article>`).join("");
   }
   $("mealDays").addEventListener("click", e => {
@@ -1090,6 +1167,7 @@ footer.foot { max-width: 940px; margin: 28px auto 0; font-size: .8rem; color: va
 
   // ---------- boot ----------
   setPref(pref);
+  setLang(lang);
   renderMeals();
   renderWorkout();
   paintThemeUI();
